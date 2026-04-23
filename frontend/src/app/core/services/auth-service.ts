@@ -62,7 +62,13 @@ export class AuthService {
   }
 
   checkResetOtp(email: string, otp: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/otps/password-reset/check/`, { email, otp });
+    return this.http.post(
+      `${this.API_URL}/otps/password-reset/check/`,
+      { email, otp },
+      {
+        withCredentials: true,
+      },
+    );
   }
 
   resetPassword(
