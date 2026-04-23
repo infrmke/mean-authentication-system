@@ -28,9 +28,13 @@ export class UserService {
     this.setUserData(null);
   }
 
-  resetEmail = signal<string | null>(null);
+  resetEmail = signal<string | null>(sessionStorage.getItem('reset_email'));
 
   setResetEmail(email: string | null) {
+    // garante que o e-mail seja recuperável mesmo após um F5
+    if (email) sessionStorage.setItem('reset_email', email);
+    else sessionStorage.removeItem('reset_email');
+
     this.resetEmail.set(email);
   }
 }
