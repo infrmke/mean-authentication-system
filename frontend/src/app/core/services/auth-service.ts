@@ -65,6 +65,21 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/otps/password-reset/check/`, { email, otp });
   }
 
+  resetPassword(
+    email: string,
+    data: { password: string; confirm_password: string },
+  ): Observable<any> {
+    return this.http.patch(
+      `${this.API_URL}/otps/password-reset/`,
+      {
+        email,
+        new_password: data.password,
+        confirm_password: data.confirm_password,
+      },
+      { withCredentials: true },
+    );
+  }
+
   resendOtp(type: 'VERIFY' | 'RESET', email?: string): Observable<{ message: string }> {
     const payload: any = { type };
 
