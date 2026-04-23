@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { InputGroup } from '../../../shared/components/input-group/input-group';
@@ -19,6 +20,8 @@ export class Login {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private router = inject(Router);
+
+  private toastr = inject(ToastrService);
 
   isLoading = signal(false);
 
@@ -44,7 +47,7 @@ export class Login {
       },
       error: (err) => {
         this.isLoading.set(false);
-        alert(err.error?.message || "Something didn't work! Try again.");
+        this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
       complete: () => this.isLoading.set(false),
     });

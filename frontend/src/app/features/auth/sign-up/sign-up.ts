@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { InputGroup } from '../../../shared/components/input-group/input-group';
@@ -19,6 +20,8 @@ export class SignUp {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private router = inject(Router);
+
+  private toastr = inject(ToastrService);
 
   isLoading = signal(false);
 
@@ -39,7 +42,7 @@ export class SignUp {
     const formData = this.form.getRawValue();
 
     if (formData.confirm_password !== formData.password) {
-      alert('Passwords must match each other');
+      this.toastr.error('Passwords must match each other');
       return;
     }
 
@@ -52,7 +55,7 @@ export class SignUp {
       },
       error: (err) => {
         this.isLoading.set(false);
-        alert(err.error?.message || "Something didn't work! Try again.");
+        this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
       complete: () => this.isLoading.set(false),
     });

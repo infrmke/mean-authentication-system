@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { UserService } from '../../../core/services/user-service';
 import { AuthService } from '../../../core/services/auth-service';
@@ -17,6 +18,8 @@ export class Home {
   authService = inject(AuthService);
   private router = inject(Router);
 
+  private toastr = inject(ToastrService);
+
   handleClickDelete() {
     const user = this.userService.userData();
 
@@ -31,10 +34,10 @@ export class Home {
         next: () => {
           this.userService.clearUser();
           this.router.navigate(['/']);
-          alert('Account deleted successfully');
+          this.toastr.success('Account deleted successfully');
         },
         error: (err) => {
-          alert(err.error?.message || "Something didn't work! Try again.");
+          this.toastr.error(err.error?.message || "Something didn't work! Try again.");
         },
       });
     }

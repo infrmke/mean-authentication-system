@@ -6,6 +6,7 @@ import { CardBody } from '../../../shared/components/card-body/card-body';
 import { InputGroup } from '../../../shared/components/input-group/input-group';
 import { AuthService } from '../../../core/services/auth-service';
 import { UserService } from '../../../core/services/user-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password',
@@ -19,6 +20,8 @@ export class ResetPassword {
   private userService = inject(UserService);
   private router = inject(Router);
 
+  private toastr = inject(ToastrService);
+
   isLoading = signal(false);
 
   // definindo o formulário reativo
@@ -31,7 +34,7 @@ export class ResetPassword {
     const email = this.userService.resetEmail();
 
     if (!email) {
-      alert('Session expired. Request a new code!');
+      this.toastr.info('Session expired. Request a new code!');
       this.router.navigate(['/forgot-password']);
       return;
     }
@@ -44,7 +47,7 @@ export class ResetPassword {
     const formData = this.form.getRawValue();
 
     if (formData.confirm_password !== formData.password) {
-      alert('Passwords must match each other');
+      this.toastr.error('Passwords must match each other');
       return;
     }
 
@@ -53,11 +56,11 @@ export class ResetPassword {
     this.authService.resetPassword(email, formData).subscribe({
       next: () => {
         this.userService.setResetEmail(null);
-        alert('Password changed successfully!');
+        this.toastr.success('Password changed successfully!');
         this.router.navigate(['/']); // leva para a página de login
       },
       error: (err) => {
-        alert(err.error?.message || "Something didn't work! Try again.");
+        this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
       complete: () => this.isLoading.set(false),
     });

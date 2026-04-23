@@ -1,5 +1,6 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from '../../../core/services/auth-service';
 import { UserService } from '../../../core/services/user-service';
@@ -19,6 +20,8 @@ export class VerifyEmail {
   private userService = inject(UserService);
   private router = inject(Router);
 
+  private toastr = inject(ToastrService);
+
   @ViewChild(ResendAction) resendAction!: ResendAction;
   @ViewChild(OtpInput) otpInput!: OtpInput;
 
@@ -35,8 +38,11 @@ export class VerifyEmail {
     if (!user || this.hasSentInitialOtp) return;
 
     this.authService.requestEmailVerification(user.id).subscribe({
-      next: () => (this.hasSentInitialOtp = true),
-      error: (err) => alert(err.error?.message || "Something didn't work! Try again."),
+      next: (res) => {
+        this.hasSentInitialOtp = true;
+        this.toastr.success(res.message);
+      },
+      error: (err) => this.toastr.error(err.error?.message || "Something didn't work! Try again."),
     });
   }
 
@@ -47,15 +53,16 @@ export class VerifyEmail {
 
     this.isLoading.set(true);
     this.authService.checkEmailOtp(user.id, otp).subscribe({
-      next: () => {
+      next: (res) => {
         // atualiza o estado do usuário para verificado (isAccountVerified: true)
         this.authService.verifySession().subscribe(() => {
           this.router.navigate(['/home']);
+          this.toastr.success(res.message);
         });
       },
       error: (err) => {
         this.isLoading.set(false);
-        alert(err.error?.message || 'Invalid code.');
+        this.toastr.error(err.error?.message || 'Invalid code.');
         this.otpInput.reset(); // limpa os campos se o código estiver errado
       },
     });
@@ -66,10 +73,10 @@ export class VerifyEmail {
     this.resendAction.setResending(true);
     this.authService.resendOtp('VERIFY').subscribe({
       next: (res) => {
-        alert(res.message);
+        this.toastr.info(res.message);
         this.resendAction.startTimer();
       },
-      error: (err) => alert(err.error?.message || "Something didn't work! Try again."),
+      error: (err) => this.toastr.error(err.error?.message || "Something didn't work! Try again."),
       complete: () => this.resendAction.setResending(false),
     });
   }

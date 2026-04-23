@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { InputGroup } from '../../../shared/components/input-group/input-group';
@@ -19,6 +20,8 @@ export class ForgotPassword {
   private userService = inject(UserService);
   private router = inject(Router);
 
+  private toastr = inject(ToastrService);
+
   isLoading = signal(false);
 
   form = this.formBuilder.group({
@@ -36,13 +39,14 @@ export class ForgotPassword {
     this.isLoading.set(true);
 
     this.authService.requestPasswordReset(email).subscribe({
-      next: () => {
+      next: (res) => {
         this.userService.setResetEmail(email); // guarda o email no state definido no UserService
         this.router.navigate(['/forgot-password/verify']); // navega para a próxima rota
+        this.toastr.info(res.message);
       },
       error: (err) => {
         this.isLoading.set(false);
-        alert(err.error?.message || "Something didn't work! Try again.");
+        this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
       complete: () => this.isLoading.set(false),
     });

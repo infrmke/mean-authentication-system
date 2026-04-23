@@ -1,5 +1,6 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { OtpInput } from '../../../shared/components/otp-input/otp-input';
@@ -19,6 +20,8 @@ export class VerifyReset {
   private userService = inject(UserService);
   private router = inject(Router);
 
+  private toastr = inject(ToastrService);
+
   @ViewChild(ResendAction) resendAction!: ResendAction;
   @ViewChild(OtpInput) otpInput!: OtpInput;
 
@@ -29,7 +32,7 @@ export class VerifyReset {
     const email = this.userService.resetEmail();
 
     if (!email) {
-      alert('Session expired. Request a new code!');
+      this.toastr.info('Session expired. Request a new code!');
       this.router.navigate(['/forgot-password']);
       return;
     }
@@ -42,7 +45,7 @@ export class VerifyReset {
       },
       error: (err) => {
         this.isLoading.set(false);
-        alert(err.error?.message || 'Invalid code.');
+        this.toastr.error(err.error?.message || 'Invalid code.');
         this.otpInput.reset(); // limpa os campos se o código estiver errado
       },
     });
@@ -56,10 +59,10 @@ export class VerifyReset {
     this.resendAction.setResending(true);
     this.authService.resendOtp('RESET', email).subscribe({
       next: (res) => {
-        alert(res.message);
+        this.toastr.success(res.message);
         this.resendAction.startTimer();
       },
-      error: (err) => alert(err.error?.message || "Something didn't work! Try again."),
+      error: (err) => this.toastr.error(err.error?.message || "Something didn't work! Try again."),
       complete: () => this.resendAction.setResending(false),
     });
   }
