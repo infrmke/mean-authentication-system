@@ -49,16 +49,24 @@ export class AuthService {
   }
 
   /* resource: /otps */
-  requestPasswordReset(email: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/otps/password-reset/request`, { email });
+  requestPasswordReset(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.API_URL}/otps/password-reset/request`, {
+      email,
+    });
   }
 
-  sendEmailVerificationOtp(userId: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/otps/email-verification/${userId}`, {});
+  sendEmailVerificationOtp(userId: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.API_URL}/otps/email-verification/${userId}`,
+      {},
+    );
   }
 
-  checkEmailOtp(userId: string, otp: string): Observable<any> {
-    return this.http.post(`${this.API_URL}/otps/email-verification/check/${userId}`, { otp });
+  checkEmailOtp(userId: string, otp: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.API_URL}/otps/email-verification/check/${userId}`,
+      { otp },
+    );
   }
 
   checkResetOtp(email: string, otp: string): Observable<any> {
