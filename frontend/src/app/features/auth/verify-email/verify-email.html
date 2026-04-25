@@ -1,0 +1,19 @@
+<div class="card fade-in">
+  <form class="form" (ngSubmit)="$event.preventDefault()">
+    <app-card-body
+      title="Check your inbox"
+      description="Enter the 6-digit code sent to your e-mail. The code expires after 15 minutes."
+      buttonText="Confirm"
+      [isLoading]="isLoading()"
+      [disabled]="!otpInputComponent.isComplete || isLoading()"
+    >
+      <app-otp-input
+        #otpInputComponent
+        [disabled]="isLoading()"
+        (onOtpSubmit)="handleOtpSubmit($event)"
+      ></app-otp-input>
+    </app-card-body>
+  </form>
+</div>
+
+<app-resend-action type="VERIFY" (onResend)="handleResend()"></app-resend-action>

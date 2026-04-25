@@ -1,0 +1,12 @@
+/*	================================
+    CARD BODY
+================================	*/
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.error-text {
+  display: block;
+  font-size: 0.75rem;
+  margin-block: 0.25rem -0.5rem;
+  color: $clr-danger;
+}

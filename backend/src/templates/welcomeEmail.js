@@ -67,7 +67,7 @@ const welcomeEmail = `
                         "
                       >
                         Welcome to a very simple website made with MongoDB,
-                        Express.js, React and Node.js!
+                        Express.js, Angular and Node.js!
                       </td>
                     </tr>
                     <tr>

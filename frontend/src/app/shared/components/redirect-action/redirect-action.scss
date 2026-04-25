@@ -1,0 +1,24 @@
+/*	================================
+    REDIRECT
+================================	*/
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.redirect {
+  font-size: 0.875rem;
+  color: $clr-text-muted;
+
+  p {
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: $clr-accent;
+
+    &:focus,
+    &:hover {
+      color: $clr-accent-hover;
+    }
+  }
+}

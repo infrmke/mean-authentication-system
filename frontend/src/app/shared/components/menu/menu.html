@@ -1,0 +1,29 @@
+<ul class="menu" role="menubar">
+  <li
+    class="menu__user"
+    role="menuitem"
+    tabindex="0"
+    aria-haspopup="true"
+    [attr.aria-label]="'User profile: ' + firstName"
+  >
+    <p class="menu__avatar" aria-hidden="true">
+      {{ firstNameLetter }}
+    </p>
+
+    <p>{{ firstName }}</p>
+
+    <span class="menu__icon" aria-hidden="true">
+      <lucide-icon name="ChevronDown" [size]="20" color="hsl(220, 10%, 46%)"></lucide-icon>
+    </span>
+  </li>
+
+  <li
+    class="menu__item"
+    role="menuitem"
+    tabindex="0"
+    (click)="handleClickLogOut()"
+    (keydown.enter)="handleClickLogOut()"
+  >
+    Log out
+  </li>
+</ul>

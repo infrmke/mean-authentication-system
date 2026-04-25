@@ -1,16 +1,13 @@
-# Full-Stack Auth System
+# Full-Stack Auth System (Angular Evolution)
 
-> ⚠️ Este projeto está em transição ativa de React para Angular.
-
-Uma aplicação de autenticação desenvolvida com a **MERN** Stack, focada em segurança, modularidade e padrões de design em camadas.
-
-O app está hospedado na Render e pode ser acessado [aqui](https://mern-auth-app-b5xg.onrender.com). Mas **atenção**: o servidor pode levar 30 ou 50 segundos para "acordar" no primeiro acesso.
+Uma aplicação de autenticação desenvolvida com a stack **MEAN** (MongoDB, Express.js, Angular e Node.js), focada em segurança, reatividade e arquitetura escalável.
 
 ## Visão Geral Técnica
 
 O projeto implementa um sistema completo de autenticação e autorização que possui foco em estabelecer fluxos seguros de autenticação e gestão de usuários.
 
-- **Deployment**: Back-end e Front-end hospedados na Render;
+- **Front-end**: Angular 21.1;
+- **Back-end**: Classes Singleton e funções modulares;
 - **E-mail Service**: SMTP via Brevo para notificações transacionais;
 - **Database**: MongoDB Atlas com indexação TTL para expiração automática de tokens OTP.
 
@@ -18,13 +15,13 @@ O projeto implementa um sistema completo de autenticação e autorização que p
 
 O projeto é **híbrido**, tendo classes (Singleton) para camadas que mantêm responsabilidades fixas (Controllers/Services/Repositories) e também tendo funções modulares para lógica auxiliar.
 
-- **Monólito Modular**: Back-end organizado em módulos desacoplados, facilitando a manutenção e testes;
+- **Monólito Modular**: Back-end organizado em módulos desacoplados, facilitando a manutenção;
 - **Controller-Service-Repository**:
   - _Controllers_: Responsáveis pelo roteamento e parsing das requisições;
   - _Services_: Camada de lógica de negócio, permitindo interação Service-to-Service (S2S);
   - _Repositories_: Abstração da camada de dados (Mongoose), centralizando as queries ao MongoDB;
 - **Global Error Handling**: Middleware centralizado para tratamento de erros, garantindo respostas padronizadas em toda a API;
-- **Middleware-Chain**: Uso intensivo de camadas para sanitização de dados, proteção de rotas JWT (jsonwebtoken) e controle de fluxo.
+- **Middleware-Chain**: Uso intensivo de camadas para sanitização de dados, proteção de rotas JWT (JSON Web Token) e controle de fluxo.
 
 ## Tech Stack e Bibliotecas
 
@@ -42,12 +39,13 @@ O projeto é **híbrido**, tendo classes (Singleton) para camadas que mantêm re
 
 **Front-end**
 
-- **Core**: React.js (Vite);
-- **Routing**: React Router;
-- **State Management**: Context API e hooks;
-- **Styling**: SASS (SCSS) para arquitetura CSS modular;
-- **UI/UX**: `lucide-react` para ícones e `react-hot-toast` para feedback visual;
-- **Client**: Axios com configuração de interceptors e withCredentials.
+- **Core**: Angular (v19+);
+- **Reatividade**: Signals & Observables (RxJS)
+- **Forms**: Reactive Forms para validações detalhadas;
+- **Dependency Injection**: Uso extensivo da função `inject()` em vez de constructors;
+- **Security**: Guards de rota para gestão de navegação;
+- **Styling e UI/UX**: SASS (SCSS) como pré-processador de estilos e `lucide-angular` para ícones;
+- **Client**: `HttpClient` nativo (substituindo o Axios).
 
 ## Funcionalidades
 
@@ -60,7 +58,6 @@ O projeto é **híbrido**, tendo classes (Singleton) para camadas que mantêm re
   - Paginação via limit e offset;
   - Endpoints semânticos;
   - Sanitização de inputs.
-- **Feedback ao Usuário**: Mensagens de erro padronizadas e UI reativa para estados de carregamento e expiração de sessões.
 
 ## Como rodar o projeto
 
@@ -106,10 +103,10 @@ Os pré-requisitos são os seguintes:
     npm install
 ```
 
-2. Crie um arquivo .env na raiz da pasta _frontend_ e adicione a URL da API como `VITE_API_URL`. Após isso, inicie a aplicação:
+2. O Angular utiliza o diretório `src/environments/` para configurações de API. Realiza as alterações necessárias e então inicie a aplicação:
 
 ```bash
-    npm run dev
+    npm run start
 ```
 
 ---
@@ -130,21 +127,11 @@ Para agilizar um pouco, o projeto utiliza a biblioteca `concurrently`, que permi
     npm run dev
 ```
 
-**Atenção**: certifique-se de que os arquivos .env tanto na pasta `/backend` quanto na pasta `/frontend` foram configurados corretamente antes de iniciar.
-
-## Documentação API
-
-Você pode testar todos os endpoints da API diretamente no Postman através da coleção abaixo:
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/infrkme/workspace/public/collection/37979308-76d4549e-cb2d-4b6e-be1f-91a07d2ce862?action=share&creator=37979308)
-
-**Atenção**: configure uma Variable `base_url` que aponte para a sua instância local ou de produção antes de testar!
+**Atenção**: certifique-se de que todas as variáveis de ambiente foram configuradas corretamente antes de iniciar!
 
 ## Variáveis de Ambiente
 
-Para rodar o projeto, você vai precisar adicionar as seguintes variáveis de ambiente nos seus respectivos ".env":
-
-**Back-end**
+Para rodar o projeto, você vai precisar adicionar as seguintes variáveis de ambiente no ".env" do seu back-end:
 
 - `NODE_ENV`
 - `SERVER_PORT`
@@ -159,22 +146,10 @@ Para rodar o projeto, você vai precisar adicionar as seguintes variáveis de am
 - `SMTP_USER`
 - `SMTP_PWD`
 
----
-
-**Front-end**
-
-- `VITE_PORT`
-
 ## Planos Futuros
 
-No momento, apenas duas coisas:
-
-- Criar uma seção "Perfil" onde o usuário será capaz de:
-  - Alterar seu nome;
-  - Definir seu avatar;
-  - Trocar seu e-mail (que precisará ser verificado de novo); e
-  - Trocar sua senha.
-- Reestruturar o front-end, migrando da biblioteca React para o framework Angular (na branch `angular-frontend`).
+- [ ] **Recuperação de Senha**: Criar o fluxo de redefinição de senha;
+- [ ] **Feedback Visual**: Implementar o uso de notificações "toast" com `ngx-toastr` ou o `hot-toast`.
 
 ## Créditos
 

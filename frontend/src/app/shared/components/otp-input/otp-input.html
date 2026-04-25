@@ -1,0 +1,31 @@
+<div
+  class="form__group form__group--otp"
+  role="group"
+  [attr.aria-label]="(type === 'VERIFY' ? 'Verification' : 'Password reset') + ' code'"
+>
+  @for (digit of otpDigits; track $index) {
+    <input
+      #otpInput
+      type="text"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      maxLength="1"
+      [value]="otpDigits[$index]"
+      (input)="handleInput($event, $index)"
+      (keydown.backspace)="handleKeyDown($index)"
+      (paste)="$index === 0 ? handlePaste($event) : null"
+      aria-label="Digit {{ $index + 1 }} of 6"
+      aria-required="true"
+      [attr.aria-invalid]="isError()"
+      [disabled]="disabled"
+    />
+  }
+</div>
+
+<div class="sr-only" aria-live="polite">
+  @if (disabled) {
+    Verifying code...
+  } @else if (isComplete) {
+    Code entered
+  }
+</div>

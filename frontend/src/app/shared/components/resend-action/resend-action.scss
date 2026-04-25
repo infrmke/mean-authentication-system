@@ -1,0 +1,12 @@
+/*	================================
+    RESEND
+================================	*/
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.resend {
+  font-size: 0.9rem;
+  text-align: center;
+  color: $clr-text-muted;
+  margin-top: 20px;
+}

@@ -1,0 +1,60 @@
+<div class="card fade-in">
+  <form [formGroup]="form" class="form" (ngSubmit)="onRegisterSubmit()">
+    <app-card-body
+      title="Register"
+      description="Enter your details below to create an account"
+      buttonText="Sign up"
+    >
+      <app-input-group
+        [control]="$any(form.get('name'))"
+        label="Name"
+        iconName="User"
+        type="text"
+        name="name"
+        id="signup-name"
+        placeholder="First or full name"
+        [required]="true"
+        [autoFocus]="true"
+      ></app-input-group>
+
+      <app-input-group
+        [control]="$any(form.get('email'))"
+        label="E-mail address"
+        iconName="AtSign"
+        type="email"
+        name="email"
+        id="signup-email"
+        placeholder="E-mail"
+        [required]="true"
+      ></app-input-group>
+
+      <app-input-group
+        [control]="$any(form.get('password'))"
+        label="Password"
+        iconName="LockOpen"
+        type="password"
+        name="password"
+        id="signup-password"
+        placeholder="Password"
+        [required]="true"
+      ></app-input-group>
+
+      <app-input-group
+        [control]="$any(form.get('confirm_password'))"
+        label="Confirm password"
+        iconName="Lock"
+        type="password"
+        name="confirm_password"
+        id="signup-confirmPassword"
+        placeholder="Repeat your password here..."
+        [required]="true"
+      ></app-input-group>
+    </app-card-body>
+  </form>
+</div>
+
+<app-redirect-action
+  text="Already have an account?"
+  linkText="Sign in here"
+  to="/"
+></app-redirect-action>

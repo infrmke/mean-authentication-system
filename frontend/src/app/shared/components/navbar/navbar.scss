@@ -1,0 +1,30 @@
+/*	================================
+    NAVBAR
+================================	*/
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 2em;
+  background-color: white;
+  box-shadow: $shadow-soft;
+
+  @media screen and (min-width: 45em) {
+    padding-inline: 4rem;
+  }
+
+  @media screen and (min-width: 65em) {
+    padding-inline: 10rem;
+  }
+
+  &__logo {
+    width: 64px;
+  }
+}

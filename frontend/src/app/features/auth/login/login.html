@@ -1,0 +1,38 @@
+<div class="card fade-in">
+  <form [formGroup]="form" class="form" (ngSubmit)="onLoginSubmit()">
+    <app-card-body title="Welcome back!" buttonText="Login">
+      <app-input-group
+        [control]="$any(form.get('email'))"
+        label="E-mail address"
+        iconName="User"
+        type="email"
+        name="email"
+        id="login-email"
+        placeholder="E-mail"
+        [required]="true"
+        [autoFocus]="true"
+      >
+      </app-input-group>
+
+      <app-input-group
+        [control]="$any(form.get('password'))"
+        label="Password"
+        iconName="Lock"
+        type="password"
+        name="password"
+        id="login-password"
+        placeholder="Password"
+        [required]="true"
+      >
+      </app-input-group>
+
+      <div class="form__group">
+        <app-redirect-action linkText="Forgot your password?" to="/forgot-password">
+        </app-redirect-action>
+      </div>
+    </app-card-body>
+  </form>
+</div>
+
+<app-redirect-action text="Don't have an account yet?" linkText="Sign up here" to="/register">
+</app-redirect-action>

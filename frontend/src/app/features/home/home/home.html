@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+
+<main class="user fade-in">
+  @if (!userService.isVerified()) {
+    <app-user-section
+      [title]="'Welcome, ' + userService.firstName()"
+      subtitle="It's an honor, but..."
+      description="Could you verify your e-mail? It's just going to take you one minute. After that, you'll be free to delete your account."
+    >
+      <a
+        routerLink="/verify-email"
+        class="btn btn--outline"
+        aria-label="Click to verify your email address"
+        >Verify e-mail</a
+      >
+    </app-user-section>
+  } @else {
+    <app-user-section
+      [title]="'Hi, ' + userService.firstName()"
+      subtitle="Looking good!"
+      description="Seems like everything is in order here. You can now delete your account if you'd like. More features will only be added in the future..."
+    >
+      <button
+        title="Warning: this action cannot be undone"
+        class="btn btn--danger"
+        (click)="handleClickDelete()"
+      >
+        Delete account
+      </button>
+    </app-user-section>
+  }
+</main>

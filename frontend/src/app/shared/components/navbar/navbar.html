@@ -1,0 +1,11 @@
+<nav class="nav" role="navigation" aria-label="Main Navigation">
+  <a routerLink="/home" class="nav__logo" aria-label="Go to Home Page">
+    <img src="/assets/images/logoipsum_light.png" alt="Logo Ipsum Network" />
+  </a>
+
+  <app-menu
+    [firstName]="userService.firstName()"
+    [firstNameLetter]="userService.firstNameLetter()"
+    (onLogoutRequest)="handleClickLogOut()"
+  ></app-menu>
+</nav>

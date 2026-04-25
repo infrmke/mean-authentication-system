@@ -1,0 +1,43 @@
+/*	================================
+    USER SECTION
+================================	*/
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+
+  > section {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  // user__heading
+  // por motivos ainda desconhecido, tentar estilizar a classe de forma direta não funciona
+  > section:nth-child(1) {
+    gap: 0.875rem;
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
+  // user__actions
+  > section:nth-child(2) {
+    ::ng-deep {
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+
+    @media screen and (min-width: 45em) {
+      align-items: center;
+    }
+  }
+}

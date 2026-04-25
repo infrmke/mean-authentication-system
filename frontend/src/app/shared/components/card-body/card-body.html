@@ -1,0 +1,15 @@
+<h1>{{ title }}</h1>
+
+@if (description) {
+  <p>{{ description }}</p>
+}
+
+<ng-content></ng-content>
+
+<button type="submit" class="btn btn--warning" [disabled]="disabled">
+  @if (isLoading) {
+    Verifying...
+  } @else {
+    {{ buttonText }}
+  }
+</button>

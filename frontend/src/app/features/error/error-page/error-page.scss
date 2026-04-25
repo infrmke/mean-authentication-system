@@ -1,0 +1,32 @@
+/*	================================
+    ERROR PAGE
+================================	*/
+
+@use '../../../../styles/abstracts/variables' as *;
+
+.error {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    font-size: 1.125rem;
+  }
+
+  code {
+    background: #f4f4f4;
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+  }
+
+  a {
+    color: $clr-accent;
+    font-weight: 500;
+
+    &:focus,
+    &:hover {
+      color: $clr-accent-hover;
+    }
+  }
+}
