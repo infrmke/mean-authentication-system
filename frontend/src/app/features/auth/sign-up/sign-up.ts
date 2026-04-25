@@ -6,8 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { InputGroup } from '../../../shared/components/input-group/input-group';
 import { RedirectAction } from '../../../shared/components/redirect-action/redirect-action';
-import { AuthService } from '../../../core/services/auth-service';
-import { UserService } from '../../../core/services/user-service';
+import { AuthService } from '../../../core/services/auth-service/auth-service';
+import { UserService } from '../../../core/services/user-service/user-service';
 
 @Component({
   selector: 'app-sign-up',

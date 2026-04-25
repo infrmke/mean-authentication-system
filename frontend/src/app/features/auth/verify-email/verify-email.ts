@@ -2,8 +2,8 @@ import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
-import { AuthService } from '../../../core/services/auth-service';
-import { UserService } from '../../../core/services/user-service';
+import { AuthService } from '../../../core/services/auth-service/auth-service';
+import { UserService } from '../../../core/services/user-service/user-service';
 
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { OtpInput } from '../../../shared/components/otp-input/otp-input';

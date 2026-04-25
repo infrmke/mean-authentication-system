@@ -4,8 +4,8 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 
 import { CardBody } from '../../../shared/components/card-body/card-body';
 import { InputGroup } from '../../../shared/components/input-group/input-group';
-import { AuthService } from '../../../core/services/auth-service';
-import { UserService } from '../../../core/services/user-service';
+import { AuthService } from '../../../core/services/auth-service/auth-service';
+import { UserService } from '../../../core/services/user-service/user-service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

@@ -6,8 +6,8 @@ import { CardBody } from '../../../shared/components/card-body/card-body';
 import { OtpInput } from '../../../shared/components/otp-input/otp-input';
 import { ResendAction } from '../../../shared/components/resend-action/resend-action';
 
-import { AuthService } from '../../../core/services/auth-service';
-import { UserService } from '../../../core/services/user-service';
+import { AuthService } from '../../../core/services/auth-service/auth-service';
+import { UserService } from '../../../core/services/user-service/user-service';
 
 @Component({
   selector: 'app-verify-reset',

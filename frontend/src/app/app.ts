@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 
-import { AuthService } from './core/services/auth-service';
-import { UserService } from './core/services/user-service';
+import { AuthService } from './core/services/auth-service/auth-service';
+import { UserService } from './core/services/user-service/user-service';
 import { PulseLoader } from './shared/components/loaders/pulse-loader/pulse-loader';
 import { SpinnerLoader } from './shared/components/loaders/spinner-loader/spinner-loader';
 
