@@ -2,7 +2,7 @@
     BASE
 ================================	*/
 
-@import '../abstracts/variables';
+@use '../abstracts/variables' as *;
 
 *:focus {
   outline: 2px solid $clr-accent;

@@ -1,13 +1,13 @@
-@import 'ngx-toastr/toastr';
+@use 'ngx-toastr/toastr';
 
-@import './styles/abstracts/variables';
+@use './styles/abstracts/variables';
 
-@import './styles/base/animations';
-@import './styles/base/base';
-@import './styles/base/reset';
-@import './styles/base/typography';
-@import './styles/base/utilities';
+@use './styles/base/animations';
+@use './styles/base/base';
+@use './styles/base/reset';
+@use './styles/base/typography';
+@use './styles/base/utilities';
 
-@import './styles/components/forms';
-@import './styles/components/buttons';
-@import './styles/components/card';
+@use './styles/components/forms';
+@use './styles/components/buttons';
+@use './styles/components/card';

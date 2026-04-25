@@ -2,7 +2,7 @@
     NAVBAR
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 .nav {
   position: fixed;

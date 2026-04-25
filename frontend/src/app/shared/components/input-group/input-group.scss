@@ -2,7 +2,7 @@
     CARD BODY
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 .error-text {
   display: block;

@@ -2,7 +2,7 @@
     BUTTONS
 ================================	*/
 
-@import '../abstracts/variables';
+@use '../abstracts/variables' as *;
 
 button {
   cursor: pointer;

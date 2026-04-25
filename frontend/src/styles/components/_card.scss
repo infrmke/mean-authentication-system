@@ -2,7 +2,7 @@
     CARD
 ================================	*/
 
-@import '../abstracts/variables';
+@use '../abstracts/variables' as *;
 
 .card {
   width: 334px;

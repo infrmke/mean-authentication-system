@@ -2,7 +2,7 @@
     LOADER: SPINNER
 ================================	*/
 
-@import '../../../../../styles/abstracts/variables';
+@use '../../../../../styles/abstracts/variables' as *;
 
 .spinner {
   width: 48px;

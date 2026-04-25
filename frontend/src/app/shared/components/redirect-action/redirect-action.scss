@@ -2,7 +2,7 @@
     REDIRECT
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 .redirect {
   font-size: 0.875rem;

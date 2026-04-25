@@ -2,7 +2,7 @@
     RESEND
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 .resend {
   font-size: 0.9rem;

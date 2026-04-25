@@ -2,7 +2,7 @@
     CARD BODY
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 :host {
   display: flex;

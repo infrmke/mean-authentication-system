@@ -2,7 +2,7 @@
     ERROR PAGE
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 .error {
   display: flex;

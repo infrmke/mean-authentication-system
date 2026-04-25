@@ -2,7 +2,7 @@
     MENU
 ================================	*/
 
-@import '../../../../styles/abstracts/variables';
+@use '../../../../styles/abstracts/variables' as *;
 
 .menu {
   position: relative;
