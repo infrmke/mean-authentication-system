@@ -22,8 +22,6 @@ export class ResetPassword {
 
   private toastr = inject(ToastrService);
 
-  isLoading = signal(false);
-
   // definindo o formulário reativo
   form = this.formBuilder.group({
     password: ['', [Validators.required, Validators.minLength(8)]],
@@ -51,8 +49,6 @@ export class ResetPassword {
       return;
     }
 
-    this.isLoading.set(true);
-
     this.authService.resetPassword(email, formData).subscribe({
       next: () => {
         this.userService.setResetEmail(null);
@@ -62,7 +58,6 @@ export class ResetPassword {
       error: (err) => {
         this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
-      complete: () => this.isLoading.set(false),
     });
   }
 }

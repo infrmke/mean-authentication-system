@@ -23,8 +23,6 @@ export class Login {
 
   private toastr = inject(ToastrService);
 
-  isLoading = signal(false);
-
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -38,18 +36,14 @@ export class Login {
 
     const formData = this.form.getRawValue();
 
-    this.isLoading.set(true);
-
     this.authService.login(formData).subscribe({
       next: (user) => {
         this.userService.setUserData(user);
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.isLoading.set(false);
         this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
-      complete: () => this.isLoading.set(false),
     });
   }
 }

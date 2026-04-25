@@ -22,8 +22,6 @@ export class ForgotPassword {
 
   private toastr = inject(ToastrService);
 
-  isLoading = signal(false);
-
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
@@ -36,8 +34,6 @@ export class ForgotPassword {
 
     const email = this.form.getRawValue().email;
 
-    this.isLoading.set(true);
-
     this.authService.requestPasswordReset(email).subscribe({
       next: (res) => {
         this.userService.setResetEmail(email); // guarda o email no state definido no UserService
@@ -45,10 +41,8 @@ export class ForgotPassword {
         this.toastr.info(res.message);
       },
       error: (err) => {
-        this.isLoading.set(false);
         this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
-      complete: () => this.isLoading.set(false),
     });
   }
 }

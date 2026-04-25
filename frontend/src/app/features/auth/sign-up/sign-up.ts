@@ -23,8 +23,6 @@ export class SignUp {
 
   private toastr = inject(ToastrService);
 
-  isLoading = signal(false);
-
   // definindo o formulário reativo
   form = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
@@ -46,18 +44,14 @@ export class SignUp {
       return;
     }
 
-    this.isLoading.set(true);
-
     this.authService.register(formData).subscribe({
       next: (user) => {
         this.userService.setUserData(user);
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.isLoading.set(false);
         this.toastr.error(err.error?.message || "Something didn't work! Try again.");
       },
-      complete: () => this.isLoading.set(false),
     });
   }
 }
