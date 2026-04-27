@@ -1,14 +1,15 @@
 import { Router } from 'express'
-
 import otpController from './otp.controller.js'
-import {
-  otpValidator,
-  emailValidator,
-  resendOtpValidator,
-  resetValidator,
-} from './otp.validator.js'
-import validateId from '../../middlewares/validateId.js'
 import verifyPasswordToken from '../../middlewares/verifyPasswordToken.js'
+import handleValidation from '../../middlewares/handleValidation.js'
+import { paramsIdSchema } from '../../utils/common.schema.js'
+import {
+  checkResetSchema,
+  checkVerificationSchema,
+  requestResetSchema,
+  resendOtpSchema,
+  resetPasswordSchema,
+} from './otp.schema.js'
 import { resendOtpFlow } from '../../middlewares/tollPlaza.js'
 
 const router = Router()
@@ -16,16 +17,28 @@ const router = Router()
 //  --- PUBLIC ROUTES ---
 
 // @route POST /otps/email-verification/:id
-router.post('/email-verification/:id', validateId, otpController.requestVerification)
+router.post(
+  '/email-verification/:id',
+  handleValidation(paramsIdSchema),
+  otpController.requestVerification,
+)
 
 // @route POST /otps/email-verification/check/:id
-router.post('/email-verification/check/:id', validateId, otpValidator, otpController.verifyEmail)
+router.post(
+  '/email-verification/check/:id',
+  handleValidation(checkVerificationSchema),
+  otpController.verifyEmail,
+)
 
 // @route POST /otps/password-reset/request
-router.post('/password-reset/request', emailValidator, otpController.requestReset)
+router.post(
+  '/password-reset/request',
+  handleValidation(requestResetSchema),
+  otpController.requestReset,
+)
 
 // @route POST /otps/password-reset/check
-router.post('/password-reset/check/', emailValidator, otpValidator, otpController.verifyReset)
+router.post('/password-reset/check/', handleValidation(checkResetSchema), otpController.verifyReset)
 
 //  --- PRIVATE ROUTES ---
 
@@ -36,12 +49,11 @@ router.get('/password-reset/status', verifyPasswordToken, otpController.show)
 router.patch(
   '/password-reset',
   verifyPasswordToken,
-  emailValidator,
-  resetValidator,
+  handleValidation(resetPasswordSchema),
   otpController.resetPassword,
 )
 
 // @route POST /otps/resend
-router.post('/resend', resendOtpFlow, resendOtpValidator, otpController.resendCode)
+router.post('/resend', resendOtpFlow, handleValidation(resendOtpSchema), otpController.resendCode)
 
 export default router
