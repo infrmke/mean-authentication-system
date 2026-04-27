@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import userController from './user.controller.js'
+import { authLimiter } from '../../middlewares/rateLimiter.js'
 import handleValidation from '../../middlewares/handleValidation.js'
 import { fullLock, ownerOnly } from '../../middlewares/tollPlaza.js'
 import { registerSchema, updateSchema } from './user.schema.js'
@@ -13,7 +14,7 @@ const router = Router()
 router.get('/', userController.getAll)
 
 // @route POST /users
-router.post('/', handleValidation(registerSchema), userController.create)
+router.post('/', authLimiter, handleValidation(registerSchema), userController.create)
 
 // @route GET /users/:id
 router.get('/:id', handleValidation(paramsIdSchema), userController.getById)

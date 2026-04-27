@@ -11,6 +11,7 @@ import {
   resetPasswordSchema,
 } from './otp.schema.js'
 import { resendOtpFlow } from '../../middlewares/tollPlaza.js'
+import { otpSendLimiter, otpVerifyLimiter } from '../../middlewares/rateLimiter.js'
 
 const router = Router()
 
@@ -26,6 +27,7 @@ router.post(
 // @route POST /otps/email-verification/check/:id
 router.post(
   '/email-verification/check/:id',
+  otpVerifyLimiter,
   handleValidation(checkVerificationSchema),
   otpController.verifyEmail,
 )
@@ -38,7 +40,12 @@ router.post(
 )
 
 // @route POST /otps/password-reset/check
-router.post('/password-reset/check/', handleValidation(checkResetSchema), otpController.verifyReset)
+router.post(
+  '/password-reset/check/',
+  otpVerifyLimiter,
+  handleValidation(checkResetSchema),
+  otpController.verifyReset,
+)
 
 //  --- PRIVATE ROUTES ---
 
@@ -54,6 +61,12 @@ router.patch(
 )
 
 // @route POST /otps/resend
-router.post('/resend', resendOtpFlow, handleValidation(resendOtpSchema), otpController.resendCode)
+router.post(
+  '/resend',
+  otpSendLimiter,
+  resendOtpFlow,
+  handleValidation(resendOtpSchema),
+  otpController.resendCode,
+)
 
 export default router
