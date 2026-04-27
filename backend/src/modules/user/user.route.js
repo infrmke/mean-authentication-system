@@ -1,9 +1,9 @@
 import { Router } from 'express'
-
 import userController from './user.controller.js'
-import { registerValidator, updateValidator } from './user.validator.js'
-import validateId from '../../middlewares/validateId.js'
+import handleValidation from '../../middlewares/handleValidation.js'
 import { fullLock, ownerOnly } from '../../middlewares/tollPlaza.js'
+import { registerSchema, updateSchema } from './user.schema.js'
+import { paramsIdSchema } from '../../utils/common.schema.js'
 
 const router = Router()
 
@@ -13,15 +13,15 @@ const router = Router()
 router.get('/', userController.getAll)
 
 // @route POST /users
-router.post('/', registerValidator, userController.create)
+router.post('/', handleValidation(registerSchema), userController.create)
 
 // @route GET /users/:id
-router.get('/:id', validateId, userController.getById)
+router.get('/:id', handleValidation(paramsIdSchema), userController.getById)
 
 //  --- PRIVATE ROUTES ---
 
 // @route PATCH /users/:id
-router.patch('/:id', ownerOnly, updateValidator, userController.update)
+router.patch('/:id', ownerOnly, handleValidation(updateSchema), userController.update)
 
 // @route DELETE /users/:id
 router.delete('/:id', fullLock, userController.destroy)

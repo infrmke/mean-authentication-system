@@ -1,0 +1,57 @@
+import { z } from 'zod'
+import { idSchema } from '../../utils/common.schema.js'
+
+// REGRAS de base (compartilhadas entre register e update)
+const userBody = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, 'Name must be at least 2 characters.')
+    .max(56, 'Name must be between 2 and 56 characters.'),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase() // alternativa ao normalizeEmail()
+    .email('Provide a valid e-mail address.'),
+  password: z.string().min(8, 'Password must be at least 8 characters.'),
+})
+
+// SCHEMAS
+
+// POST /users
+const registerSchema = z.object({
+  body: userBody
+    .extend({
+      confirm_password: z.string().min(1, 'Confirm your password.'),
+    })
+    .refine((data) => data.password === data.confirm_password, {
+      message: 'Passwords must match each other.',
+      path: ['confirm_password'], // erro associado ao campo confirm_password
+    }),
+})
+
+// PATCH /users/:id
+const updateSchema = z.object({
+  params: z.object({
+    id: idSchema, // valida o ID na URL
+  }),
+  body: userBody
+    .partial() // campos viram opcionais
+    .extend({
+      confirm_password: z.string().optional(),
+    })
+    .refine(
+      (data) => {
+        if (data.password && data.password !== data.confirm_password) {
+          return false
+        }
+        return true
+      },
+      {
+        message: 'Passwords must match each other.',
+        path: ['confirm_password'],
+      },
+    ),
+})
+
+export { registerSchema, updateSchema }
