@@ -12,6 +12,7 @@ import {
 } from './otp.schema.js'
 import { resendOtpFlow } from '../../middlewares/tollPlaza.js'
 import { otpSendLimiter, otpVerifyLimiter } from '../../middlewares/rateLimiter.js'
+import { isGuest } from '../../middlewares/isLoggedIn.js'
 
 const router = Router()
 
@@ -35,6 +36,7 @@ router.post(
 // @route POST /otps/password-reset/request
 router.post(
   '/password-reset/request',
+  isGuest,
   handleValidation(requestResetSchema),
   otpController.requestReset,
 )

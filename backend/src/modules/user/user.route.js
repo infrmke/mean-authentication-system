@@ -5,6 +5,7 @@ import handleValidation from '../../middlewares/handleValidation.js'
 import { fullLock, ownerOnly } from '../../middlewares/tollPlaza.js'
 import { registerSchema, updateSchema } from './user.schema.js'
 import { paramsIdSchema } from '../../utils/common.schema.js'
+import { isGuest } from '../../middlewares/isLoggedIn.js'
 
 const router = Router()
 
@@ -14,7 +15,7 @@ const router = Router()
 router.get('/', userController.getAll)
 
 // @route POST /users
-router.post('/', authLimiter, handleValidation(registerSchema), userController.create)
+router.post('/', authLimiter, isGuest, handleValidation(registerSchema), userController.create)
 
 // @route GET /users/:id
 router.get('/:id', handleValidation(paramsIdSchema), userController.getById)
