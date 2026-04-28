@@ -14,30 +14,33 @@ const HTTP_ERROR = {
 const errorHandler = (err, req, res, next) => {
   let status = err.status || 500
   let code = err.code || 'INTERNAL_SERVER_ERROR'
-  let message = err.message || 'An unexpected error occurred. Try again another time.'
+  let detail = err.message || 'An unexpected error occurred. Try again another time.'
 
   //  tratamento para o erro de duplicidade gerado pelo mongodb/mongoose
-  //  pode ser personalizado no catch(error) do controller
   if (err.code === 11000) {
     status = 409
     code = 'RESOURCE_ALREADY_EXISTS'
-    message = 'One or more of the records provided already exist in the database.'
+    detail = 'One or more records already exist.' // pode ser personalizado no catch(error) do controller
   }
 
   //  busca o nome do erro ou simplesmente usa 'Error'
-  const errorType = HTTP_ERROR[status] || 'Error'
+  const title = HTTP_ERROR[status] || 'Error'
 
   //  log de erro
   if (process.env.NODE_ENV === 'development') {
     console.error(err.stack)
   }
 
+  // header adequado conforme o RFC da IETF
+  res.setHeader('Content-Type', 'application/problem+json')
   return res.status(status).json({
     status,
-    error: errorType,
-    message,
+    error: title,
+    detail,
+    instance: req.originalUrl,
+    // extensões personalizadas abaixo
     code,
-    ...(err.errors ? { errors: err.errors } : {}), // para os erros vindos do Zod
+    ...(err.errors ? { invalid_params: err.errors } : {}), // para os erros vindos do Zod
     ...(process.env.NODE_ENV === 'development' ? { stack: err.stack } : null),
   })
 }
