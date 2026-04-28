@@ -1,4 +1,4 @@
-import cache from '../lib/cache'
+import cache from '../lib/cache.js'
 
 /**
  * Limpa chaves de cache relacionadas a um usuário específico ou listas globais.
