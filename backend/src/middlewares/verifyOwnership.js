@@ -1,4 +1,4 @@
-import throwHttpError from '../utils/throwHttpError'
+import throwHttpError from '../utils/throwHttpError.js'
 
 /**
  * Verifica se o usuário autenticado é o proprietário da conta passada pelo ID na URL.
