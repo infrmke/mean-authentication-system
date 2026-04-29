@@ -18,9 +18,10 @@ const errorHandler = (err, req, res, next) => {
 
   //  tratamento para o erro de duplicidade gerado pelo mongodb/mongoose
   if (err.code === 11000) {
+    const field = Object.keys(err.keyPattern || {})[0] || 'field' // pega o nome do campo repetido
     status = 409
     code = 'RESOURCE_ALREADY_EXISTS'
-    detail = 'One or more records already exist.' // pode ser personalizado no catch(error) do controller
+    detail = `The provided ${field} is already in use or active.`
   }
 
   //  busca o nome do erro ou simplesmente usa 'Error'
