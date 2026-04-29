@@ -46,9 +46,19 @@ class OtpService {
     if (user.isAccountVerified)
       throwHttpError(403, 'Account has already been verified.', 'FORBIDDEN_ACTION')
 
-    const otpOptions = createOtpOptions(user._id, 'VERIFY')
-    const newOtp = await this.#otpRepository.create(otpOptions)
-    await sendEmail(getOtpMailOptions(user.email, newOtp.code, 'VERIFY'))
+    try {
+      const otpOptions = createOtpOptions(user._id, 'VERIFY')
+      const newOtp = await this.#otpRepository.create(otpOptions)
+      await sendEmail(getOtpMailOptions(user.email, newOtp.code, 'VERIFY'))
+    } catch (error) {
+      if (error.code === 11000)
+        throwHttpError(
+          409,
+          'An active e-mail code has already been sent to this account.',
+          'OTP_ALREADY_SENT',
+        )
+      throw error // repassa outros erros inesperados
+    }
   }
 
   sendReset = async (filter) => {
@@ -59,7 +69,14 @@ class OtpService {
       await sendEmail(getOtpMailOptions(user.email, newOtp.code, 'RESET'))
     } catch (error) {
       if (error.code === 'USER_NOT_FOUND') return // não avisa que o usuário não foi encontrado
-      throw error
+
+      if (error.code === 11000)
+        throwHttpError(
+          409,
+          'An active password reset code has already been sent to this account.',
+          'OTP_ALREADY_SENT',
+        )
+      throw error // repassa outros erros inesperados
     }
   }
 
