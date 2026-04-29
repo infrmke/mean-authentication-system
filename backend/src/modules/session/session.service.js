@@ -3,6 +3,7 @@ import throwHttpError from '../../utils/throwHttpError.js'
 import generateToken from '../../utils/generateToken.js'
 import { validatePassword } from '../../utils/password.js'
 import formatUserObject from '../../utils/formatUserObject.js'
+import cache from '../../lib/cache.js'
 import clearUserCache from '../../utils/clearUserCache.js'
 
 class SessionService {

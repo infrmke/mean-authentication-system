@@ -6,6 +6,7 @@ import generateToken from '../../utils/generateToken.js'
 import { createOtpOptions } from '../../utils/generateOtp.js'
 import { getOtpMailOptions } from '../../utils/generateMail.js'
 import { sendEmail } from '../../config/nodemailer.js'
+import cache from '../../lib/cache.js'
 import clearUserCache from '../../utils/clearUserCache.js'
 
 class OtpService {
