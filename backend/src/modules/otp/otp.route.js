@@ -52,7 +52,7 @@ router.post(
 //  --- PRIVATE ROUTES ---
 
 // @route GET /otps/password-reset/status
-router.get('/password-reset/status', verifyPasswordToken, otpController.show)
+router.get('/password-reset/status', verifyPasswordToken, otpController.status)
 
 // @route PATCH /password-reset
 router.patch(
