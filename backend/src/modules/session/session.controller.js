@@ -10,7 +10,7 @@ class SessionController {
     this.#sessionService = sessionService
   }
 
-  show = async (req, res, next) => {
+  status = async (req, res, next) => {
     const { id } = req.user
 
     try {
