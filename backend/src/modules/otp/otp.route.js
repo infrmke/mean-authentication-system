@@ -13,25 +13,11 @@ import {
 import { resendOtpFlow } from '../../middlewares/tollPlaza.js'
 import { otpSendLimiter, otpVerifyLimiter } from '../../middlewares/rateLimiter.js'
 import { isGuest } from '../../middlewares/isLoggedIn.js'
+import verifyAccessToken from '../../middlewares/verifyAccessToken.js'
 
 const router = Router()
 
 //  --- PUBLIC ROUTES ---
-
-// @route POST /otps/email-verification/:id
-router.post(
-  '/email-verification/:id',
-  handleValidation(paramsIdSchema),
-  otpController.requestVerification,
-)
-
-// @route POST /otps/email-verification/check/:id
-router.post(
-  '/email-verification/check/:id',
-  otpVerifyLimiter,
-  handleValidation(checkVerificationSchema),
-  otpController.verifyEmail,
-)
 
 // @route POST /otps/password-reset/request
 router.post(
@@ -50,6 +36,23 @@ router.post(
 )
 
 //  --- PRIVATE ROUTES ---
+
+// @route POST /otps/email-verification/:id
+router.post(
+  '/email-verification/:id',
+  verifyAccessToken,
+  handleValidation(paramsIdSchema),
+  otpController.requestVerification,
+)
+
+// @route POST /otps/email-verification/check/:id
+router.post(
+  '/email-verification/check/:id',
+  verifyAccessToken,
+  otpVerifyLimiter,
+  handleValidation(checkVerificationSchema),
+  otpController.verifyEmail,
+)
 
 // @route GET /otps/password-reset/status
 router.get('/password-reset/status', verifyPasswordToken, otpController.status)
