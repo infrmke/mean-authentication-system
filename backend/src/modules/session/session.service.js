@@ -12,7 +12,7 @@ class SessionService {
     this.#userService = userService
   }
 
-  verify = async (id) => {
+  showStatus = async (id) => {
     const cacheKey = `user_session_${id}`
 
     // tenta buscar o resultado da requisição no cache primeiro

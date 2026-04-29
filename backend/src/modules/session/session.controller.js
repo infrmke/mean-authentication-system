@@ -14,7 +14,7 @@ class SessionController {
     const { id } = req.user
 
     try {
-      const user = await this.#sessionService.verify(id)
+      const user = await this.#sessionService.showStatus(id)
       return res.status(200).json(user)
     } catch (error) {
       next(error)
