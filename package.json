@@ -13,6 +13,7 @@
   },
   "homepage": "https://github.com/infrmke/mern-authentication-system#readme",
   "scripts": {
+    "install-all": "npm install && concurrently \"npm install --prefix frontend\" \"npm install --prefix backend\"",
     "server": "npm run dev --prefix backend",
     "client": "npm run start --prefix frontend",
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"green.bold,magenta.bold\" \"npm run server\" \"npm run client\""
