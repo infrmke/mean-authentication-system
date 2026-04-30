@@ -17,7 +17,10 @@ verifyConnection() // verifica a conexão do nodemailer
 app.use(express.json())
 app.use(cors)
 app.use(cookieParser())
-app.use(morgan('dev'))
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 //  rotas
 app.use(GlobalRouter)
