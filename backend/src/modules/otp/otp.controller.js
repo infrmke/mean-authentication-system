@@ -61,9 +61,9 @@ class OtpController {
   }
 
   resetPassword = async (req, res, next) => {
-    const { email, new_password } = req.body
+    const { email, newPassword } = req.body
 
-    const user = await this.#otpService.resetPassword({ email }, new_password)
+    const user = await this.#otpService.resetPassword({ email }, newPassword)
 
     res.clearCookie('passwordToken', {
       httpOnly: true,

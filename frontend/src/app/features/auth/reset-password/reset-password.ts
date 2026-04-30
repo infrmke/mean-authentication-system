@@ -25,7 +25,7 @@ export class ResetPassword {
   // definindo o formulário reativo
   form = this.formBuilder.group({
     password: ['', [Validators.required, Validators.minLength(8)]],
-    confirm_password: ['', [Validators.required]],
+    confirmPassword: ['', [Validators.required]],
   });
 
   onResetSubmit(): void {
@@ -44,7 +44,7 @@ export class ResetPassword {
 
     const formData = this.form.getRawValue();
 
-    if (formData.confirm_password !== formData.password) {
+    if (formData.confirmPassword !== formData.password) {
       this.toastr.error('Passwords must match each other');
       return;
     }

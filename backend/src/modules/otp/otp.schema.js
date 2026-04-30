@@ -37,12 +37,12 @@ const resetPasswordSchema = z.object({
   body: z
     .object({
       email: emailRule,
-      new_password: z.string().min(8, 'Password must be at least 8 characters.'),
-      confirm_password: z.string().nonempty('Confirm your password.'),
+      newPassword: z.string().min(8, 'Password must be at least 8 characters.'),
+      confirmPassword: z.string().nonempty('Confirm your password.'),
     })
-    .refine((data) => data.new_password === data.confirm_password, {
+    .refine((data) => data.newPassword === data.confirmPassword, {
       message: 'Passwords must match each other.',
-      path: ['confirm_password'], // erro associado ao campo confirm_password
+      path: ['confirmPassword'], // erro associado ao campo confirmPassword
     }),
 })
 

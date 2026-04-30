@@ -22,11 +22,11 @@ const userBody = z.object({
 const registerSchema = z.object({
   body: userBody
     .extend({
-      confirm_password: z.string().min(1, 'Confirm your password.'),
+      confirmPassword: z.string().min(1, 'Confirm your password.'),
     })
-    .refine((data) => data.password === data.confirm_password, {
+    .refine((data) => data.password === data.confirmPassword, {
       message: 'Passwords must match each other.',
-      path: ['confirm_password'], // erro associado ao campo confirm_password
+      path: ['confirmPassword'], // erro associado ao campo confirmPassword
     }),
 })
 
@@ -38,18 +38,18 @@ const updateSchema = z.object({
   body: userBody
     .partial() // campos viram opcionais
     .extend({
-      confirm_password: z.string().optional(),
+      confirmPassword: z.string().optional(),
     })
     .refine(
       (data) => {
-        if (data.password && data.password !== data.confirm_password) {
+        if (data.password && data.password !== data.confirmPassword) {
           return false
         }
         return true
       },
       {
         message: 'Passwords must match each other.',
-        path: ['confirm_password'],
+        path: ['confirmPassword'],
       },
     ),
 })

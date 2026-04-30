@@ -28,7 +28,7 @@ export class SignUp {
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    confirm_password: ['', [Validators.required]],
+    confirmPassword: ['', [Validators.required]],
   });
 
   onRegisterSubmit(): void {
@@ -39,7 +39,7 @@ export class SignUp {
 
     const formData = this.form.getRawValue();
 
-    if (formData.confirm_password !== formData.password) {
+    if (formData.confirmPassword !== formData.password) {
       this.toastr.error('Passwords must match each other');
       return;
     }

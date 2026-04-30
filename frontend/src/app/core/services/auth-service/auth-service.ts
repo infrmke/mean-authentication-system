@@ -88,14 +88,14 @@ export class AuthService {
 
   resetPassword(
     email: string,
-    data: { password: string; confirm_password: string },
+    data: { password: string; confirmPassword: string },
   ): Observable<any> {
     return this.http.patch(
       `${this.API_URL}/otps/password-reset/`,
       {
         email,
-        new_password: data.password,
-        confirm_password: data.confirm_password,
+        newPassword: data.password,
+        confirmPassword: data.confirmPassword,
       },
       { withCredentials: true },
     );
