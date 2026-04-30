@@ -41,16 +41,14 @@ class OtpController {
     const { id } = req.params
     const { otp } = req.body
 
-    await this.#otpService.validateEmail(id, otp, 'VERIFY')
+    await this.#otpService.validateEmail(id, otp)
     return res.status(200).json({ message: 'E-mail verified successfully.' })
   }
 
   verifyReset = async (req, res, next) => {
     const { email, otp } = req.body
 
-    const passwordToken = await this.#otpService.validateReset(otp, 'RESET', {
-      email,
-    })
+    const passwordToken = await this.#otpService.validateReset(otp, { email })
 
     res.cookie('passwordToken', passwordToken, {
       httpOnly: true,

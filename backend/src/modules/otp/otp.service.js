@@ -24,6 +24,25 @@ class OtpService {
     return capsule.user
   }
 
+  // utilitário para envio de e-mail
+  #sendCodeEmail = async (userId, userEmail, otpType) => {
+    const otpOptions = createOtpOptions(userId, otpType)
+    const newOtp = await this.#otpRepository.create(otpOptions)
+    await sendEmail(getOtpMailOptions(userEmail, newOtp.code, otpType))
+  }
+
+  // utilitário para validação de otp
+  #validateCode = async (userId, otpCode, otpType) => {
+    const otpDocument = await this.#otpRepository.findById(userId, otpType)
+
+    if (!otpDocument)
+      throwHttpError(404, 'Code expired or not found. Please request a new one.', 'OTP_NOT_FOUND')
+
+    if (otpCode !== otpDocument.code) throwHttpError(403, 'Invalid code.', 'OTP_NOT_FOUND')
+
+    await this.#otpRepository.remove(userId, otpType)
+  }
+
   showStatus = async (token) => {
     const identifier = token.split('.')[1]
     const cacheKey = `password_reset_${identifier}`
@@ -47,9 +66,7 @@ class OtpService {
       throwHttpError(403, 'Account has already been verified.', 'FORBIDDEN_ACTION')
 
     try {
-      const otpOptions = createOtpOptions(user._id, 'VERIFY')
-      const newOtp = await this.#otpRepository.create(otpOptions)
-      await sendEmail(getOtpMailOptions(user.email, newOtp.code, 'VERIFY'))
+      await this.#sendCodeEmail(user._id, user.email, 'VERIFY')
     } catch (error) {
       if (error.code === 11000)
         throwHttpError(
@@ -64,9 +81,7 @@ class OtpService {
   sendReset = async (filter) => {
     try {
       const user = await this.#getUserByFilter(filter)
-      const otpOptions = createOtpOptions(user._id, 'RESET')
-      const newOtp = await this.#otpRepository.create(otpOptions)
-      await sendEmail(getOtpMailOptions(user.email, newOtp.code, 'RESET'))
+      await this.#sendCodeEmail(user._id, user.email, 'RESET')
     } catch (error) {
       if (error.code === 'USER_NOT_FOUND') return // não avisa que o usuário não foi encontrado
 
@@ -97,39 +112,24 @@ class OtpService {
     cache.set(cooldownKey, true, 60) // ativa o cooldown no cache
   }
 
-  validateEmail = async (id, otp, otpType) => {
+  validateEmail = async (id, otpCode) => {
     const capsule = await this.#userService.show(id)
     const user = capsule?.user || capsule // se .user não existir assume que a capsule já é o user
 
     if (user.isAccountVerified)
       throwHttpError(403, 'Account has already been verified.', 'FORBIDDEN_ACTION')
 
-    const otpDocument = await this.#otpRepository.findById(user._id, 'VERIFY')
-    if (!otpDocument) throwHttpError(500, 'Could not verify code. Try again later.')
-
-    if (!otpDocument.code || otp !== otpDocument.code || otpType !== otpDocument.type)
-      throwHttpError(403, 'Invalid code.', 'OTP_NOT_FOUND')
-
-    await this.#userService.update(user._id, {
-      isAccountVerified: true,
-    })
-    await this.#otpRepository.remove(id, 'VERIFY')
+    await this.#validateCode(user._id, otpCode, 'VERIFY')
+    await this.#userService.update(user._id, { isAccountVerified: true })
 
     clearUserCache(user._id) // limpa o cache para não retornar dados ultrapassados no próximo GET
   }
 
-  validateReset = async (otp, otpType, filter) => {
+  validateReset = async (otpCode, filter) => {
     const user = await this.#getUserByFilter(filter)
+    await this.#validateCode(user._id, otpCode, 'RESET')
 
-    const otpDocument = await this.#otpRepository.findById(user._id, 'RESET')
-    if (!otpDocument) throwHttpError(500, 'Could not verify code. Try again later.')
-
-    if (!otpDocument.code || otp !== otpDocument.code || otpType !== otpDocument.type)
-      throwHttpError(403, 'Invalid code.', 'OTP_NOT_FOUND')
-    await this.#otpRepository.remove(user._id, 'RESET')
-
-    const passwordToken = generateToken({ id: user._id }, process.env.JWT_RESET_SECRET, '15m')
-    return passwordToken
+    return generateToken({ id: user._id }, process.env.JWT_RESET_SECRET, '15m')
   }
 
   resetPassword = async (filter, password) => {
