@@ -17,7 +17,7 @@ class OtpController {
     const { id } = req.params
 
     await this.#otpService.sendVerification(id)
-    return res.status(200).json({ message: 'Code has been sent.' })
+    return res.status(204).end()
   }
 
   requestReset = async (req, res, next) => {
@@ -42,7 +42,7 @@ class OtpController {
     const { otp } = req.body
 
     await this.#otpService.validateEmail(id, otp)
-    return res.status(200).json({ message: 'E-mail verified successfully.' })
+    return res.status(204).end()
   }
 
   verifyReset = async (req, res, next) => {
@@ -57,7 +57,7 @@ class OtpController {
       maxAge: 15 * 60 * 1000, // 15 minutos
     })
 
-    return res.status(200).json({ message: 'Code has been verified. Proceed to password reset.' })
+    return res.status(200).end()
   }
 
   resetPassword = async (req, res, next) => {

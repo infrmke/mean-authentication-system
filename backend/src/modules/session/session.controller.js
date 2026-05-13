@@ -40,7 +40,7 @@ class SessionController {
       sameSite: 'Lax',
     })
 
-    return res.status(200).json({ message: 'User has logged out.' })
+    return res.status(204).end()
   }
 }
 
