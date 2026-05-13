@@ -13,7 +13,7 @@ const HTTP_ERROR = {
  */
 const errorHandler = (err, req, res, next) => {
   let status = err.status || 500
-  let detail = err.message || 'An unexpected error occurred. Try again another time.'
+  let detail = err.message || 'An unexpected error occurred. Please try again later.'
 
   //  tratamento para o erro de duplicidade gerado pelo mongodb/mongoose
   if (err.code === 11000) {

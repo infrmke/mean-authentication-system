@@ -35,7 +35,7 @@ class OtpService {
   #validateCode = async (userId, otpCode, otpType) => {
     const otpDocument = await this.#otpRepository.findById(userId, otpType)
 
-    if (!otpDocument) throwHttpError(404, 'Code expired or not found. Please request a new one')
+    if (!otpDocument) throwHttpError(404, 'Code has expired')
 
     if (otpCode !== otpDocument.code) throwHttpError(403, 'Invalid code')
 

@@ -11,10 +11,7 @@ const verifyPasswordToken = (req, res, next) => {
   const { passwordToken } = req.cookies
 
   if (!passwordToken) {
-    throwHttpError(
-      401,
-      isEnvDev ? 'Session expired or missing password token' : 'Unauthorized action',
-    )
+    throwHttpError(401, isEnvDev ? 'Token not found' : 'Access denied')
   }
 
   try {
@@ -26,9 +23,9 @@ const verifyPasswordToken = (req, res, next) => {
 
     if (error.name === 'TokenExpiredError') {
       error.status = 403
-      error.message = isEnvDev ? 'The password reset session has expired' : 'Session expired'
+      error.message = isEnvDev ? 'Token has expired' : 'Session expired'
     } else {
-      error.message = isEnvDev ? 'Invalid password token' : 'Unauthorized action'
+      error.message = isEnvDev ? 'Invalid token' : 'Access denied'
     }
 
     next(error)
