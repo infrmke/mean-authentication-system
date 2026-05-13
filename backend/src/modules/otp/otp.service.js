@@ -77,7 +77,7 @@ class OtpService {
       const user = await this.#getUserByFilter(filter)
       await this.#sendCodeEmail(user._id, user.email, 'RESET')
     } catch (error) {
-      if (error.code === 'USER_NOT_FOUND') return // não avisa que o usuário não foi encontrado
+      if (error.status === 400) return // não avisa que o usuário não foi encontrado
 
       if (error.code === 11000)
         throwHttpError(409, 'An active password reset code has already been sent to this account')

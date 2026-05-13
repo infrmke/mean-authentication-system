@@ -20,11 +20,9 @@ const verifyAccessToken = (req, res, next) => {
   } catch (error) {
     // personalizando outros erros para serem estritamente 401 (Unauthorized)
     error.status = 401
-    error.code = 'INVALID_TOKEN'
 
     if (error.name === 'TokenExpiredError') {
       error.status = 403
-      error.code = 'EXPIRED_TOKEN'
       error.message = isEnvDev ? 'Access denied. Expired token' : 'Session expired'
     } else {
       error.message = isEnvDev ? 'Access denied. Invalid token' : 'Access denied'
