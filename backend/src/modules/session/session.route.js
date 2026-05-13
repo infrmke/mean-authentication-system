@@ -19,12 +19,12 @@ router.post(
   sessionController.login,
 )
 
-// @route POST /sessions/logout
-router.post('/logout', verifyAccessToken, sessionController.logout)
-
 //  --- PRIVATE ROUTES ---
 
 // @route GET /sessions/me
 router.get('/me', verifyAccessToken, sessionController.status)
+
+// @route POST /sessions/logout
+router.post('/logout', verifyAccessToken, sessionController.logout)
 
 export default router
