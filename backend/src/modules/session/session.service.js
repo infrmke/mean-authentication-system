@@ -22,7 +22,7 @@ class SessionService {
 
     // se não houver cache, executa a lógica normal abaixo
     const capsule = await this.#userService.show(id)
-    if (!capsule) throwHttpError(404, 'User session not found.')
+    if (!capsule) throwHttpError(404, 'User session not found')
 
     const { user } = capsule
     const formattedUser = formatUserObject(user)
@@ -35,7 +35,7 @@ class SessionService {
     const capsule = await this.#userService.find(filter, '+password')
 
     if (!capsule || !(await validatePassword(password, capsule.user.password))) {
-      throwHttpError(400, 'Invalid credentials.')
+      throwHttpError(400, 'Invalid credentials')
     }
 
     const { user } = capsule

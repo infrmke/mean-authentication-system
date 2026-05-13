@@ -13,7 +13,7 @@ const verifyPasswordToken = (req, res, next) => {
   if (!passwordToken) {
     throwHttpError(
       401,
-      isEnvDev ? 'Session expired or missing password token.' : 'Unauthorized action.',
+      isEnvDev ? 'Session expired or missing password token' : 'Unauthorized action',
     )
   }
 
@@ -28,9 +28,9 @@ const verifyPasswordToken = (req, res, next) => {
     if (error.name === 'TokenExpiredError') {
       error.status = 403
       error.code = 'EXPIRED_RESET_TOKEN'
-      error.message = isEnvDev ? 'The password reset session has expired.' : 'Session expired.'
+      error.message = isEnvDev ? 'The password reset session has expired' : 'Session expired'
     } else {
-      error.message = isEnvDev ? 'Invalid password token.' : 'Unauthorized action.'
+      error.message = isEnvDev ? 'Invalid password token' : 'Unauthorized action'
     }
 
     next(error)

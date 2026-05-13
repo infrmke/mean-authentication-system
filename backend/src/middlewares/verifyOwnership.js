@@ -5,7 +5,7 @@ import throwHttpError from '../utils/throwHttpError.js'
  */
 const verifyOwnership = (req, res, next) => {
   if (req.params.id !== req.user.id.toString())
-    throwHttpError(403, 'You can only modify your own account.')
+    throwHttpError(403, 'You can only modify your own account')
   next()
 }
 

@@ -48,7 +48,7 @@ class UserService {
 
   find = async (filter, projection = {}) => {
     const user = await this.#userRepository.findOne(filter, projection)
-    if (!user) throwHttpError(400, 'User does not exist.')
+    if (!user) throwHttpError(400, 'User does not exist')
 
     const formattedUser = formatUserObject(user)
     return { user, formattedUser }
@@ -63,7 +63,7 @@ class UserService {
 
     // se não houver cache, executa a lógica normal abaixo
     const user = await this.#userRepository.findById(id)
-    if (!user) throwHttpError(400, 'User does not exist.')
+    if (!user) throwHttpError(400, 'User does not exist')
 
     const formattedUser = formatUserObject(user)
     const result = { user, formattedUser }
@@ -74,7 +74,7 @@ class UserService {
 
   store = async (data) => {
     const user = await this.#userRepository.create(data)
-    if (!user) throwHttpError(500, 'Could not create user.')
+    if (!user) throwHttpError(500, 'Could not create user')
 
     const accessToken = generateToken({ id: user._id }, process.env.JWT_ACCESS_SECRET, '1d')
     await sendEmail(getWelcomeMailOptions(data.name, data.email))
@@ -85,7 +85,7 @@ class UserService {
 
   update = async (id, data) => {
     const user = await this.#userRepository.update(id, data)
-    if (!user) throwHttpError(400, 'User does not exist.')
+    if (!user) throwHttpError(400, 'User does not exist')
 
     const formattedUser = formatUserObject(user)
 
@@ -95,7 +95,7 @@ class UserService {
 
   destroy = async (id) => {
     const user = await this.#userRepository.remove(id)
-    if (!user) throwHttpError(400, 'User does not exist.')
+    if (!user) throwHttpError(400, 'User does not exist')
 
     clearUserCache(id) // limpa o cache para não retornar dados ultrapassados no próximo GET
     return true

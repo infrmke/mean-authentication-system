@@ -10,7 +10,7 @@ const verifyAccessToken = (req, res, next) => {
   const { accessToken } = req.cookies
 
   if (!accessToken) {
-    throwHttpError(401, isEnvDev ? 'Access denied. Missing token.' : 'Access denied.')
+    throwHttpError(401, isEnvDev ? 'Access denied. Missing token' : 'Access denied')
   }
 
   try {
@@ -25,9 +25,9 @@ const verifyAccessToken = (req, res, next) => {
     if (error.name === 'TokenExpiredError') {
       error.status = 403
       error.code = 'EXPIRED_TOKEN'
-      error.message = isEnvDev ? 'Access denied. Expired token.' : 'Session expired.'
+      error.message = isEnvDev ? 'Access denied. Expired token' : 'Session expired'
     } else {
-      error.message = isEnvDev ? 'Access denied. Invalid token.' : 'Access denied.'
+      error.message = isEnvDev ? 'Access denied. Invalid token' : 'Access denied'
     }
 
     next(error)
