@@ -22,24 +22,33 @@ class UserService {
     if (cachedData) return cachedData
 
     // se não houver cache, executa a lógica normal abaixo
-    const page = Math.max(1, parseInt(query.page) || 1)
-    const limit = Math.max(1, parseInt(query.limit) || 10)
-    const offset = (page - 1) * limit
+    const page = Math.max(0, parseInt(query.page) || 0)
+    const size = Math.max(1, parseInt(query.size) || 10)
+    const sortParam = query.sort || 'createdAt,desc'
 
-    const { users, totalItems } = await this.#userRepository.findAll(limit, offset)
-    const formattedUsers = users.map((user) => formatUserObject(user))
-    const totalPages = Math.ceil(totalItems / limit) // se existir 11 usuários e o limit for 10, haverá 2 páginas
-    const currentPage = page
+    // parse do sort
+    const [field, direction] = sortParam.split(',')
+    const sortOrder = direction === 'desc' ? -1 : 1
+
+    const { users, totalElements } = await this.#userRepository.findAll({
+      page,
+      size,
+      sortField: field,
+      sortOrder,
+    })
+
+    // se existir 11 usuários e o size for 10, haverá 2 páginas
+    const totalPages = Math.ceil(totalElements / size)
 
     const paginationData = {
-      items: users,
-      pagination: {
-        totalItems,
-        totalPages,
-        currentPage,
-        nextPage: currentPage < totalPages ? currentPage + 1 : null,
-        prevPage: currentPage > 1 ? currentPage - 1 : null,
-      },
+      content: users.map((user) => formatUserObject(user)),
+      first: page === 0,
+      last: page >= totalPages - 1,
+      number: page,
+      numberOfElements: users.length,
+      size,
+      totalElements,
+      totalPages,
     }
 
     cache.set(cacheKey, paginationData) // salva os dados no cache

@@ -1,13 +1,19 @@
 import User from '../user/user.model.js'
 
 class UserRepository {
-  async findAll(limit, offset) {
-    const [users, totalItems] = await Promise.all([
-      User.find().skip(offset).limit(limit),
+  async findAll({ page, size, sortField, sortOrder }) {
+    const skip = page * size
+
+    const [users, totalElements] = await Promise.all([
+      User.find()
+        .sort({ [sortField]: sortOrder }) // Ordenação dinâmica
+        .skip(skip)
+        .limit(size)
+        .lean(), // retorna dados puros (Plain Old JavaScript Objects)
       User.countDocuments(),
     ])
 
-    return { users, totalItems }
+    return { users, totalElements }
   }
 
   async findOne(filter, projection = {}) {
