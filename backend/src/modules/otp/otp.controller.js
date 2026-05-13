@@ -57,7 +57,7 @@ class OtpController {
       maxAge: 15 * 60 * 1000, // 15 minutos
     })
 
-    return res.status(200).end()
+    return res.status(204).end()
   }
 
   resetPassword = async (req, res, next) => {
