@@ -16,7 +16,7 @@ const createLimiter = (windowMin, maxReq, message) =>
     legacyHeaders: false, // desativa os headers X-RateLimit-* antigos
     handler: (req, res, next) => {
       try {
-        throwHttpError(429, message, 'TOO_MANY_REQUESTS')
+        throwHttpError(429, message)
       } catch (error) {
         next(error)
       }

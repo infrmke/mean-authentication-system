@@ -13,7 +13,6 @@ const HTTP_ERROR = {
  */
 const errorHandler = (err, req, res, next) => {
   let status = err.status || 500
-  let code = err.code || 'INTERNAL_SERVER_ERROR'
   let detail = err.message || 'An unexpected error occurred. Try again another time.'
 
   //  tratamento para o erro de duplicidade gerado pelo mongodb/mongoose
@@ -27,7 +26,7 @@ const errorHandler = (err, req, res, next) => {
   //  busca o nome do erro ou simplesmente usa 'Error'
   const title = HTTP_ERROR[status] || 'Error'
 
-  //  log de erro
+  //  log de erro no console
   if (process.env.NODE_ENV === 'development') {
     console.error(err.stack)
   }
@@ -36,13 +35,12 @@ const errorHandler = (err, req, res, next) => {
   res.setHeader('Content-Type', 'application/problem+json')
   return res.status(status).json({
     type: 'about:blank', // valor padrão da RFC quando não há link de doc
+    title,
     status,
-    error: title,
     detail,
     instance: req.originalUrl,
     // extensões personalizadas abaixo
-    code,
-    ...(err.errors ? { invalid_params: err.errors } : {}), // para os erros vindos do Zod
+    ...(err.errors ? { errors: err.errors } : {}), // para os erros vindos do Zod
     ...(process.env.NODE_ENV === 'development' ? { stack: err.stack } : null),
   })
 }

@@ -18,7 +18,7 @@ const handleValidation = (schema) => (req, res, next) => {
       field: issue.path.length > 1 ? issue.path[1] : issue.path[0], // pega o nome do campo que deu erro
       message: issue.message,
     }))
-    throwHttpError(400, 'Validation failed', 'VALIDATION_ERROR', formattedErrors)
+    throwHttpError(400, 'Validation failed', formattedErrors)
   }
 }
 

@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken'
 import throwHttpError from '../utils/throwHttpError.js'
 
-const isEnvDev =
-  process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development'
+const isEnvDev = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development'
 
 /**
  * Middleware para autorizar a redefinição de senha.
@@ -14,10 +13,7 @@ const verifyPasswordToken = (req, res, next) => {
   if (!passwordToken) {
     throwHttpError(
       401,
-      isEnvDev
-        ? 'Session expired or missing password token.'
-        : 'Unauthorized action.',
-      'MISSING_RESET_TOKEN'
+      isEnvDev ? 'Session expired or missing password token.' : 'Unauthorized action.',
     )
   }
 
@@ -32,13 +28,9 @@ const verifyPasswordToken = (req, res, next) => {
     if (error.name === 'TokenExpiredError') {
       error.status = 403
       error.code = 'EXPIRED_RESET_TOKEN'
-      error.message = isEnvDev
-        ? 'The password reset session has expired.'
-        : 'Session expired.'
+      error.message = isEnvDev ? 'The password reset session has expired.' : 'Session expired.'
     } else {
-      error.message = isEnvDev
-        ? 'Invalid password token.'
-        : 'Unauthorized action.'
+      error.message = isEnvDev ? 'Invalid password token.' : 'Unauthorized action.'
     }
 
     next(error)

@@ -35,10 +35,9 @@ class OtpService {
   #validateCode = async (userId, otpCode, otpType) => {
     const otpDocument = await this.#otpRepository.findById(userId, otpType)
 
-    if (!otpDocument)
-      throwHttpError(404, 'Code expired or not found. Please request a new one.', 'OTP_NOT_FOUND')
+    if (!otpDocument) throwHttpError(404, 'Code expired or not found. Please request a new one.')
 
-    if (otpCode !== otpDocument.code) throwHttpError(403, 'Invalid code.', 'OTP_NOT_FOUND')
+    if (otpCode !== otpDocument.code) throwHttpError(403, 'Invalid code.')
 
     await this.#otpRepository.remove(userId, otpType)
   }
@@ -62,18 +61,13 @@ class OtpService {
     const capsule = await this.#userService.show(id)
     const user = capsule?.user || capsule // se .user não existir assume que a capsule já é o user
 
-    if (user.isAccountVerified)
-      throwHttpError(403, 'Account has already been verified.', 'FORBIDDEN_ACTION')
+    if (user.isAccountVerified) throwHttpError(403, 'Account has already been verified.')
 
     try {
       await this.#sendCodeEmail(user._id, user.email, 'VERIFY')
     } catch (error) {
       if (error.code === 11000)
-        throwHttpError(
-          409,
-          'An active e-mail code has already been sent to this account.',
-          'OTP_ALREADY_SENT',
-        )
+        throwHttpError(409, 'An active e-mail code has already been sent to this account.')
       throw error // repassa outros erros inesperados
     }
   }
@@ -86,11 +80,7 @@ class OtpService {
       if (error.code === 'USER_NOT_FOUND') return // não avisa que o usuário não foi encontrado
 
       if (error.code === 11000)
-        throwHttpError(
-          409,
-          'An active password reset code has already been sent to this account.',
-          'OTP_ALREADY_SENT',
-        )
+        throwHttpError(409, 'An active password reset code has already been sent to this account.')
       throw error // repassa outros erros inesperados
     }
   }
@@ -100,8 +90,7 @@ class OtpService {
 
     // verifica se o cooldown de 60s está ativo
     const cooldownKey = `otp_cooldown_${type}_${user._id}`
-    if (cache.has(cooldownKey))
-      throwHttpError(429, 'Wait 60s before requesting a new code.', 'OTP_COOLDOWN_TIME')
+    if (cache.has(cooldownKey)) throwHttpError(429, 'Wait 60s before requesting a new code.')
 
     // deleta o OTP previamente gerado
     await this.#otpRepository.remove(user._id, type)
@@ -116,8 +105,7 @@ class OtpService {
     const capsule = await this.#userService.show(id)
     const user = capsule?.user || capsule // se .user não existir assume que a capsule já é o user
 
-    if (user.isAccountVerified)
-      throwHttpError(403, 'Account has already been verified.', 'FORBIDDEN_ACTION')
+    if (user.isAccountVerified) throwHttpError(403, 'Account has already been verified.')
 
     await this.#validateCode(user._id, otpCode, 'VERIFY')
     await this.#userService.update(user._id, { isAccountVerified: true })
