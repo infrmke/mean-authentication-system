@@ -34,7 +34,7 @@ class SessionService {
   authenticate = async (password, filter) => {
     const capsule = await this.#userService.find(filter, '+password')
 
-    if (!capsule || !(await validatePassword(password, capsule.user.password))) {
+    if (!(await validatePassword(password, capsule.user.password))) {
       throwHttpError(400, 'Invalid credentials')
     }
 
