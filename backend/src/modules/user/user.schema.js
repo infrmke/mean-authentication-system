@@ -6,14 +6,14 @@ const userBody = z.object({
   name: z
     .string()
     .trim()
-    .min(2, 'Name must be at least 2 characters.')
-    .max(56, 'Name must be between 2 and 56 characters.'),
+    .min(2, 'Name must be at least 2 characters')
+    .max(56, 'Name must be between 2 and 56 characters'),
   email: z
     .string()
     .trim()
     .toLowerCase() // alternativa ao normalizeEmail()
-    .email('Provide a valid e-mail address.'),
-  password: z.string().min(8, 'Password must be at least 8 characters.'),
+    .email('Provide a valid e-mail address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 })
 
 // SCHEMAS
@@ -22,10 +22,10 @@ const userBody = z.object({
 const registerSchema = z.object({
   body: userBody
     .extend({
-      confirmPassword: z.string().min(1, 'Confirm your password.'),
+      confirmPassword: z.string().min(1, 'Confirm your password'),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: 'Passwords must match each other.',
+      message: 'Passwords must match each other',
       path: ['confirmPassword'], // erro associado ao campo confirmPassword
     }),
 })
@@ -48,7 +48,7 @@ const updateSchema = z.object({
         return true
       },
       {
-        message: 'Passwords must match each other.',
+        message: 'Passwords must match each other',
         path: ['confirmPassword'],
       },
     ),

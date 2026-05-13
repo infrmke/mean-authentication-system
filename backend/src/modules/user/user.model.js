@@ -5,27 +5,27 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      minlength: [2, 'Name must be at least 2 characters long.'],
-      maxlength: [56, 'Name cannot exceed 56 characters.'],
+      minlength: [2, 'Name must be at least 2 characters long'],
+      maxlength: [56, 'Name cannot exceed 56 characters'],
       trim: true,
-      required: [true, 'Name is required.'],
+      required: [true, 'Name is required'],
     },
     email: {
       type: String,
       unique: true,
       trim: true,
       lowercase: true,
-      required: [true, 'Email is required.'],
-      match: [/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid e-mail format.'],
+      required: [true, 'Email is required'],
+      match: [/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Invalid e-mail format'],
     },
     password: {
       type: String,
       select: false,
-      required: [true, 'Password is required.'],
+      required: [true, 'Password is required'],
     },
     isAccountVerified: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 //  faz a senha ser hasheada na operação User.save()
