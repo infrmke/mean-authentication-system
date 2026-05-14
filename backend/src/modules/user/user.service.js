@@ -59,8 +59,9 @@ class UserService {
     const user = await this.#userRepository.findOne(filter, projection)
     if (!user) throwHttpError(400, 'User does not exist')
 
-    const formattedUser = formatUserObject(user)
-    return { user, formattedUser }
+    if (projection === '+password') return user
+
+    return formatUserObject(user)
   }
 
   show = async (id) => {
@@ -75,10 +76,9 @@ class UserService {
     if (!user) throwHttpError(400, 'User does not exist')
 
     const formattedUser = formatUserObject(user)
-    const result = { user, formattedUser }
 
-    cache.set(cacheKey, result) // salva os dados no cache
-    return result
+    cache.set(cacheKey, formattedUser) // salva os dados no cache
+    return formattedUser
   }
 
   store = async (data) => {

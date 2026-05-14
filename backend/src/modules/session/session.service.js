@@ -21,29 +21,22 @@ class SessionService {
     if (cachedData) return cachedData
 
     // se não houver cache, executa a lógica normal abaixo
-    const capsule = await this.#userService.show(id)
-    if (!capsule) throwHttpError(404, 'User session not found')
-
-    const { user } = capsule
-    const formattedUser = formatUserObject(user)
+    const user = await this.#userService.show(id)
+    if (!user) throwHttpError(404, 'User session not found')
 
     cache.set(cacheKey, user, 120) // salva os dados no cache com TTL de 2 min
-    return formattedUser
+    return user
   }
 
   authenticate = async (password, filter) => {
-    const capsule = await this.#userService.find(filter, '+password')
-
-    if (!(await validatePassword(password, capsule.user.password))) {
+    const user = await this.#userService.find(filter, '+password') // recebe um objeto user não formatado
+    if (!(await validatePassword(password, user.password)))
       throwHttpError(400, 'Invalid credentials')
-    }
 
-    const { user } = capsule
-    const formattedUser = formatUserObject(user)
-    const accessToken = generateToken({ id: user._id }, process.env.JWT_ACCESS_SECRET, '1d')
+    const accessToken = generateToken({ id: user.id }, process.env.JWT_ACCESS_SECRET, '1d')
 
-    clearUserCache(formattedUser.id) // limpa o cache para não retornar dados ultrapassados
-    return { formattedUser, accessToken }
+    clearUserCache(user._id) // limpa o cache para não retornar dados ultrapassados
+    return { user: formatUserObject(user), accessToken } // formata o objeto user para não expor a senha
   }
 
   terminate = (id) => {

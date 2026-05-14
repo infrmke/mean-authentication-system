@@ -20,8 +20,7 @@ class OtpService {
 
   // utilitário para busca avançada de usuário
   #getUserByFilter = async (filter, projection) => {
-    const capsule = await this.#userService.find(filter, projection)
-    return capsule.user
+    return await this.#userService.find(filter, projection)
   }
 
   // utilitário para envio de e-mail
@@ -58,9 +57,7 @@ class OtpService {
   }
 
   sendVerification = async (id) => {
-    const capsule = await this.#userService.show(id)
-    const user = capsule?.user || capsule // se .user não existir assume que a capsule já é o user
-
+    const user = await this.#userService.show(id)
     if (user.isAccountVerified) throwHttpError(403, 'Account has already been verified')
 
     try {
@@ -102,9 +99,7 @@ class OtpService {
   }
 
   validateEmail = async (id, otpCode) => {
-    const capsule = await this.#userService.show(id)
-    const user = capsule?.user || capsule // se .user não existir assume que a capsule já é o user
-
+    const user = await this.#userService.show(id)
     if (user.isAccountVerified) throwHttpError(403, 'Account has already been verified')
 
     await this.#validateCode(user._id, otpCode, 'VERIFY')

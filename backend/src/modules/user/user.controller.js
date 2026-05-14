@@ -16,8 +16,8 @@ class UserController {
   getById = async (req, res, next) => {
     const { id } = req.params
 
-    const capsule = await this.#userService.show(id)
-    return res.status(200).json(capsule.formattedUser)
+    const user = await this.#userService.show(id)
+    return res.status(200).json(user)
   }
 
   create = async (req, res, next) => {

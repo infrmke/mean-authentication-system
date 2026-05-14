@@ -19,7 +19,7 @@ class SessionController {
     const { email, password } = req.body
 
     const capsule = await this.#sessionService.authenticate(password, { email })
-    const { formattedUser, accessToken } = capsule
+    const { user, accessToken } = capsule
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -28,7 +28,7 @@ class SessionController {
       maxAge: 24 * 60 * 60 * 1000, // 1 dia
     })
 
-    return res.status(200).json(formattedUser)
+    return res.status(200).json(user)
   }
 
   logout = async (req, res, next) => {
