@@ -22,8 +22,6 @@ class SessionService {
 
     // se não houver cache, executa a lógica normal abaixo
     const user = await this.#userService.show(id)
-    if (!user) throwHttpError(404, 'User session not found')
-
     cache.set(cacheKey, user, 120) // salva os dados no cache com TTL de 2 min
     return user
   }
