@@ -2,7 +2,8 @@ import Otp from './otp.model.js'
 
 class OtpRepository {
   async create(data) {
-    return await Otp.create(data).toObject()
+    const otp = await Otp.create(data)
+    return otp.toObject() // converte para objeto JS puro
   }
 
   async findById(id, type) {

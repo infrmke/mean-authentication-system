@@ -25,7 +25,8 @@ class UserRepository {
   }
 
   async create(data) {
-    return await User.create(data).toObject()
+    const user = await User.create(data)
+    return user.toObject() // converte para objeto JS puro
   }
 
   async update(id, data) {
