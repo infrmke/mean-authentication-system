@@ -63,11 +63,23 @@ export class AuthService {
   }
 
   requestEmailVerification(userId: string): Observable<void> {
-    return this.http.post<void>(`${this.API_URL}/otps/email-verification/${userId}`, {});
+    return this.http.post<void>(
+      `${this.API_URL}/otps/email-verification/${userId}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    );
   }
 
   checkEmailOtp(userId: string, otp: string): Observable<void> {
-    return this.http.post<void>(`${this.API_URL}/otps/email-verification/check/${userId}`, { otp });
+    return this.http.post<void>(
+      `${this.API_URL}/otps/email-verification/check/${userId}`,
+      { otp },
+      {
+        withCredentials: true,
+      },
+    );
   }
 
   checkResetOtp(email: string, otp: string): Observable<void> {
