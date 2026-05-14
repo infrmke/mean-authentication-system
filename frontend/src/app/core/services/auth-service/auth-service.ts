@@ -62,22 +62,16 @@ export class AuthService {
     });
   }
 
-  requestEmailVerification(userId: string): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(
-      `${this.API_URL}/otps/email-verification/${userId}`,
-      {},
-    );
+  requestEmailVerification(userId: string): Observable<void> {
+    return this.http.post<void>(`${this.API_URL}/otps/email-verification/${userId}`, {});
   }
 
-  checkEmailOtp(userId: string, otp: string): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(
-      `${this.API_URL}/otps/email-verification/check/${userId}`,
-      { otp },
-    );
+  checkEmailOtp(userId: string, otp: string): Observable<void> {
+    return this.http.post<void>(`${this.API_URL}/otps/email-verification/check/${userId}`, { otp });
   }
 
-  checkResetOtp(email: string, otp: string): Observable<any> {
-    return this.http.post(
+  checkResetOtp(email: string, otp: string): Observable<void> {
+    return this.http.post<void>(
       `${this.API_URL}/otps/password-reset/check/`,
       { email, otp },
       {
@@ -110,7 +104,7 @@ export class AuthService {
     }
 
     return this.http.post<{ message: string }>(`${this.API_URL}/otps/resend`, payload, {
-      withCredentials: true,
+      withCredentials: type === 'VERIFY',
     });
   }
 }
