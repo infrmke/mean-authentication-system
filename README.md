@@ -23,7 +23,7 @@ A aplicação foi estruturada sob o conceito de Monólito Modular com responsabi
 
 ## Tech Stack e Bibliotecas
 
-### Back-end (Node.js 22.21 e Express 5.1)
+### Back-end (Node.js 22.21 e Express 5.2)
 
 - **Security**: `jsonwebtoken` para autenticação Stateless, `bcrypt` para hashing e validação de senhas e `CORS` para políticas de segurança cross-origin;
 - **Session Management**: `cookie-parser` para a manipulação segura de credenciais em cookies;
