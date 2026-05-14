@@ -35,14 +35,14 @@ export class VerifyEmail {
 
   private sendInitialOtp() {
     const user = this.userService.userData();
-    if (!user || this.hasSentInitialOtp) return;
+    if (!user?.id || this.hasSentInitialOtp) return;
 
     this.authService.requestEmailVerification(user.id).subscribe({
       next: (res) => {
         this.hasSentInitialOtp = true;
-        this.toastr.success(res.message);
+        this.toastr.success('Code has been sent');
       },
-      error: (err) => this.toastr.error(err.error?.message || "Something didn't work! Try again."),
+      error: (err) => this.toastr.error(err.error?.detail),
     });
   }
 
@@ -57,12 +57,12 @@ export class VerifyEmail {
         // atualiza o estado do usuário para verificado (isAccountVerified: true)
         this.authService.verifySession().subscribe(() => {
           this.router.navigate(['/home']);
-          this.toastr.success(res.message);
+          this.toastr.success('E-mail verified successfully');
         });
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.toastr.error(err.error?.message || 'Invalid code.');
+        this.toastr.error(err.error?.detail);
         this.otpInput.reset(); // limpa os campos se o código estiver errado
       },
     });
@@ -76,7 +76,7 @@ export class VerifyEmail {
         this.toastr.info(res.message);
         this.resendAction.startTimer();
       },
-      error: (err) => this.toastr.error(err.error?.message || "Something didn't work! Try again."),
+      error: (err) => this.toastr.error(err.error?.detail),
       complete: () => this.resendAction.setResending(false),
     });
   }

@@ -45,8 +45,14 @@ export class VerifyReset {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.toastr.error(err.error?.message || 'Invalid code.');
         this.otpInput.reset(); // limpa os campos se o código estiver errado
+
+        if (err.status === 400) {
+          this.toastr.error('Invalid code');
+          return; // evita que o usuário saiba que o erro retorna "User not found"
+        }
+
+        this.toastr.error(err.error?.detail);
       },
     });
   }
@@ -62,7 +68,16 @@ export class VerifyReset {
         this.toastr.success(res.message);
         this.resendAction.startTimer();
       },
-      error: (err) => this.toastr.error(err.error?.message || "Something didn't work! Try again."),
+      error: (err) => {
+        this.resendAction.startTimer();
+
+        if (err.status === 400) {
+          this.toastr.info('If the e-mail is valid, a new code has been sent');
+          return; // evita que o usuário saiba que o erro retorna "User not found"
+        }
+
+        this.toastr.error(err.error?.detail);
+      },
       complete: () => this.resendAction.setResending(false),
     });
   }

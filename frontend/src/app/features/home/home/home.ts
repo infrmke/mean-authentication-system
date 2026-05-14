@@ -37,7 +37,7 @@ export class Home {
           this.toastr.success('Account deleted successfully');
         },
         error: (err) => {
-          this.toastr.error(err.error?.message || "Something didn't work! Try again.");
+          this.toastr.error(err.error?.detail);
         },
       });
     }

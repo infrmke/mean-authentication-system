@@ -52,11 +52,11 @@ export class ResetPassword {
     this.authService.resetPassword(email, formData).subscribe({
       next: () => {
         this.userService.setResetEmail(null);
-        this.toastr.success('Password changed successfully!');
+        this.toastr.success('Password changed successfully');
         this.router.navigate(['/']); // leva para a página de login
       },
       error: (err) => {
-        this.toastr.error(err.error?.message || "Something didn't work! Try again.");
+        this.toastr.error(err.error?.detail);
       },
     });
   }

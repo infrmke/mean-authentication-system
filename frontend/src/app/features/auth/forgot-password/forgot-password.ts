@@ -41,7 +41,7 @@ export class ForgotPassword {
         this.toastr.info(res.message);
       },
       error: (err) => {
-        this.toastr.error(err.error?.message || "Something didn't work! Try again.");
+        this.toastr.error(err.error?.detail);
       },
     });
   }
