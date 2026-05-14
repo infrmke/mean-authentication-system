@@ -34,14 +34,12 @@ class OtpController {
     const filter = type === 'VERIFY' ? { _id: req.user.id } : { email }
 
     await this.#otpService.resend(type, filter)
-    return res
-      .status(200)
-      .json({
-        message:
-          type === 'VERIFY'
-            ? 'A new code has been sent'
-            : 'If the e-mail is valid, a new code has been sent',
-      })
+    return res.status(200).json({
+      message:
+        type === 'VERIFY'
+          ? 'A new code has been sent'
+          : 'If the e-mail is valid, a new code has been sent',
+    })
   }
 
   verifyEmail = async (req, res, next) => {
