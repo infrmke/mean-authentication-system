@@ -38,8 +38,8 @@ export class AuthService {
     });
   }
 
-  logout(): Observable<any> {
-    return this.http.post<UserData>(
+  logout(): Observable<void> {
+    return this.http.post<void>(
       `${this.API_URL}/sessions/logout`,
       {},
       {
