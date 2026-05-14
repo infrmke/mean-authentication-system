@@ -31,7 +31,7 @@ class SessionService {
     if (!(await validatePassword(password, user.password)))
       throwHttpError(400, 'Invalid credentials')
 
-    const accessToken = generateToken({ id: user.id }, process.env.JWT_ACCESS_SECRET, '1d')
+    const accessToken = generateToken({ id: user._id }, process.env.JWT_ACCESS_SECRET, '1d')
 
     clearUserCache(user._id) // limpa o cache para não retornar dados ultrapassados
     return { user: formatUserObject(user), accessToken } // formata o objeto user para não expor a senha
