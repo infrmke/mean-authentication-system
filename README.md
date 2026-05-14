@@ -2,6 +2,8 @@
 
 Uma aplicação de autenticação desenvolvida com a stack MongoDB, Express.js, Angular e Node.js, focada em segurança, reatividade e arquitetura escalável.
 
+O app está hospedado na Render e pode ser acessado [aqui](https://auth-app-web.onrender.com). Contudo, **leve em consideração** que o servidor pode levar 30 ou 50 segundos para "acordar" no primeiro acesso.
+
 ## Visão Geral Técnica
 
 O projeto conta com um ecossistema de gestão de identidades (IAM) que lida com o ciclo de vida completo do usuário desde o cadastro e verificação (por OTP) até o controle de acesso. O sistema utiliza camadas de cache em memória para otimizar a performance e limitadores de tráfego que seguem padrões da IETF para garantir a estabilidade sob carga.
