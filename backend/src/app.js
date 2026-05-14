@@ -11,6 +11,9 @@ import errorHandler from './middlewares/errorHandler.js'
 
 //  config
 const app = express()
+
+app.set('trust proxy', 1) // habilita o reconhecimento do IP real do usuário
+
 connectToDb()
 verifyConnection() // verifica a conexão do nodemailer
 
