@@ -17,23 +17,23 @@ class UserRepository {
   }
 
   async findOne(filter, projection = {}) {
-    return await User.findOne(filter, projection)
+    return await User.findOne(filter, projection).lean()
   }
 
   async findById(id) {
-    return await User.findById(id)
+    return await User.findById(id).lean()
   }
 
   async create(data) {
-    return await User.create(data)
+    return await User.create(data).toObject()
   }
 
   async update(id, data) {
-    return await User.findByIdAndUpdate(id, data, { new: true })
+    return await User.findByIdAndUpdate(id, data, { new: true }).lean()
   }
 
   async remove(id) {
-    return await User.findByIdAndDelete(id)
+    return await User.findByIdAndDelete(id).lean()
   }
 }
 
