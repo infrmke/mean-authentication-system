@@ -8,15 +8,9 @@ const isAccountVerified = async (req, res, next) => {
   const { id } = req.user
 
   try {
-    const capsule = await UserService.show(id)
-
-    if (!capsule) {
-      throwHttpError(404, 'User not found')
-    }
-
-    if (!capsule.user.isAccountVerified) {
+    const user = await UserService.show(id)
+    if (!user.isAccountVerified)
       throwHttpError(403, 'Account must be verified to perform this action')
-    }
 
     next()
   } catch (error) {
