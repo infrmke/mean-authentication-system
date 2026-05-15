@@ -52,16 +52,24 @@ A aplicação foi estruturada sob o conceito de Monólito Modular com responsabi
 
 ## Como rodar o projeto
 
-O projeto utiliza o `concurrently` em sua raiz para facilitar a inicialização de ambas as camadas simultaneamente. Os **pré-requisitos** para rodá-lo são: Node.js (18+), npm ou yarn, MongoDB Atlas e uma conta no serviço de e-mails Brevo.
+O projeto utiliza o `concurrently` em sua raiz para facilitar a inicialização de ambas as camadas simultaneamente. Os **pré-requisitos** para rodá-lo são: Node.js (18+), npm ou yarn para gerenciamento de pacotes e uma conta no serviço de e-mails Brevo.
 
-1. Clone o Repositório
+Antes de rodar a aplicação, você precisa preparar sua instância ativa do MongoDB. Siga os passos abaixo:
+
+1. Faça login no MongoDB Atlas
+2. Crie um novo Projeto e um Cluster (Shared/Gratuito)
+3. Em Database Access, crie um usuário e salve a senha
+4. Em Network Access, libere o acesso ao seu IP
+5. Clique em Connect e selecione "Drivers" para obter sua URI de conexão. Você a usará na variável "MONGODB_URI" no arquivo .env.
+
+Após cumprir com as condições acima, clone o repositório.
 
 ```shell
     git clone https://github.com/infrmke/mean-authentication-system.git
     cd mean-authentication-system
 ```
 
-2. Instale de Dependências
+1. Instale as dependências
 
 Baixe todas as dependências de cada `package.json`:
 
@@ -69,32 +77,15 @@ Baixe todas as dependências de cada `package.json`:
     npm run install-all
 ```
 
-3. Crie um arquivo ".env" na raiz da pasta `backend` e o preencha com as variáveis listadas na seção "Variáveis de Ambiente". Ainda, configure o ponto de entrada da API em `src/environments/` na pasta `frontend`.
+2. Crie um arquivo ".env" na raiz da pasta `backend` e o preencha com as variáveis listadas na seção "Variáveis de Ambiente". Ainda, configure o ponto de entrada da API em `src/environments/` na pasta `frontend`.
 
-4. Inicie o servidor em modo de desenvolvimento:
+3. Inicie a aplicação em modo de desenvolvimento:
 
 ```shell
     npm run dev
 ```
 
 **Atenção**: certifique-se de que todas as variáveis de ambiente foram configuradas corretamente antes de iniciar!
-
-## Variáveis de Ambiente
-
-Para rodar o projeto, você vai precisar adicionar as seguintes variáveis de ambiente no ".env" do seu back-end:
-
-- `NODE_ENV`
-- `SERVER_PORT`
-- `CLIENT_PORT`
-- `MONGODB_URI`
-- `DB_NAME`
-- `JWT_ACCESS_SECRET`
-- `JWT_RESET_SECRET`
-- `SMTP_MAILER`
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_USER`
-- `SMTP_PWD`
 
 ## Documentação da API
 
@@ -135,6 +126,23 @@ As respostas de erro seguem o padrão application/problem+json. Um exemplo de er
 ## Planos Futuros
 
 No momento, apenas um: a criação de uma funcionalidade de "Perfil" onde o usuário será capaz de alterar seu nome, definir um avatar, trocar seu e-mail (que precisará ser verificado de novo) e trocar sua senha.
+
+## Variáveis de Ambiente
+
+Para rodar o projeto, você vai precisar adicionar as seguintes variáveis de ambiente no ".env" do seu back-end:
+
+- `NODE_ENV`
+- `SERVER_PORT`
+- `CLIENT_PORT`
+- `MONGODB_URI`
+- `DB_NAME`
+- `JWT_ACCESS_SECRET`
+- `JWT_RESET_SECRET`
+- `SMTP_MAILER`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PWD`
 
 ## Créditos
 
