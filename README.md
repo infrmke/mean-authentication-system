@@ -58,14 +58,15 @@ O projeto é **híbrido**, tendo classes (Singleton) para camadas que mantêm re
 
 ## Como rodar o projeto
 
-Os pré-requisitos são os seguintes:
+Os **pré-requisitos** principais são os seguintes: Node.js (18+), npm ou yarn para gerenciamento de pacotes e uma conta na Brevo (para o envio de e-mails). Contudo, antes de qualquer coisa, o projeto requer uma instância ativa do MongoDB. Siga os passos abaixo:
 
-- Node.js (18+);
-- npm ou yarn;
-- Uma conta no MongoDB Atlas (ou MongoDB instalado localmente);
-- Uma conta na Brevo (para o envio de e-mails).
+1. Faça login no MongoDB Atlas
+2. Crie um novo Projeto e um Cluster (Shared/Gratuito)
+3. Em Database Access, crie um usuário e salve a senha
+4. Em Network Access, libere o acesso ao seu IP
+5. Clique em Connect e selecione "Drivers" para obter sua URI de conexão. Ela terá o formato `mongodb+srv://<usuario>:<senha>@cluster0.mongodb.net/<nome_do_banco>`.
 
-Após cumprir com as condições, clone o repositório.
+Após cumprir com as condições acima, clone o repositório.
 
 ```shell
     git clone https://github.com/infrmke/mean-authentication-system.git
@@ -96,7 +97,7 @@ Após cumprir com as condições, clone o repositório.
 
 **Front-end**
 
-1. Abra um novo terminal, navegue até a pasta do cliente e instale as dependências.
+1. Abra um novo terminal, navegue até a pasta do cliente e instale as dependências:
 
 ```shell
     cd frontend
