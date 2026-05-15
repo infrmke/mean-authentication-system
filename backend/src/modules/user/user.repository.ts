@@ -1,4 +1,4 @@
-import User from '../user/user.model.js'
+import User from './user.model.js'
 
 class UserRepository {
   async findAll({ page, size, sortField, sortOrder }) {
