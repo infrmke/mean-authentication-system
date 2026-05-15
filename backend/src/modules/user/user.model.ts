@@ -1,7 +1,8 @@
+import type { IUserDocument } from './user.types.js'
 import mongoose, { Schema } from 'mongoose'
 import { generatePassword } from '../../utils/password.js'
 
-const userSchema = new Schema(
+const userSchema = new Schema<IUserDocument>(
   {
     name: {
       type: String,
@@ -29,35 +30,37 @@ const userSchema = new Schema(
 )
 
 //  faz a senha ser hasheada na operação User.save()
-userSchema.pre('save', async function (next) {
+userSchema.pre<IUserDocument>('save', async function (next) {
   if (!this.isModified('password')) return next()
 
   try {
-    const hash = await generatePassword(this.password)
-    this.password = hash
+    if (this.password) {
+      const hash = await generatePassword(this.password)
+      this.password = hash
+    }
     next()
   } catch (error) {
-    next(error)
+    next(error as Error)
   }
 })
 
 //  faz a senha ser hasheada nas operações User.findByIdAndUpdate() e User.findOneAndUpdate()
 userSchema.pre('findOneAndUpdate', async function (next) {
   // pega o objeto do "update" ex.:{ password: 'nova_senha' })
-  const update = this.getUpdate()
+  const update = this.getUpdate() as any
 
   // verifica se a senha está sendo atualizada no objeto
-  if (update.password) {
+  if (update && update.password) {
     try {
       const hash = await generatePassword(update.password)
       update.password = hash
     } catch (error) {
-      next(error)
+      next(error as Error)
     }
   }
   next()
 })
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model<IUserDocument>('User', userSchema)
 
 export default User

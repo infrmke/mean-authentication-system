@@ -1,6 +1,7 @@
+import type { IOtpDocument } from './otp.types.js'
 import mongoose, { Schema } from 'mongoose'
 
-const otpSchema = new Schema(
+const otpSchema = new Schema<IOtpDocument>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -40,6 +41,6 @@ otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 // índice composto para previnir mais de um OTP ativo do mesmo TIPO (verify ou reset)
 otpSchema.index({ user: 1, type: 1 }, { unique: true })
 
-const Otp = mongoose.model('Otp', otpSchema)
+const Otp = mongoose.model<IOtpDocument>('Otp', otpSchema)
 
 export default Otp
